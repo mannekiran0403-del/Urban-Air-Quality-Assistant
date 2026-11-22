@@ -15,8 +15,25 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
+        // Granular code-splitting: each logical group becomes its own chunk.
+        // Combined with React.lazy() in App.tsx this reduces initial JS parse time.
         manualChunks: {
           vendor: ['react', 'react-dom'],
+          dashboard: [
+            './src/components/Dashboard/AQIHeatmap',
+            './src/components/Dashboard/PollutantCards',
+            './src/components/Dashboard/AIInsightsPanel',
+          ],
+          navigation: ['./src/components/Navigation/ExposureNavigator'],
+          iaq: [
+            './src/components/IAQ/CADRCalculator',
+            './src/components/IAQ/DIYPurifierHacks',
+          ],
+          community: [
+            './src/components/Community/EmissionPledges',
+            './src/components/Community/VolunteerWatch',
+          ],
+          multilingual: ['./src/components/Multilingual/MultilingualSmogAssistant'],
         },
       },
     },

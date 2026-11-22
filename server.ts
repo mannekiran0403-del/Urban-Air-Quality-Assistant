@@ -24,6 +24,22 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// ------------------------------------------------------------
+// Structured Server Logger (tagged, ISO-timestamped)
+// Centralises all process output; never leaks to client.
+// ------------------------------------------------------------
+const logger = {
+  info: (msg: string, ...args: unknown[]) =>
+    // eslint-disable-next-line no-console
+    console.log(`[Respiro][INFO]  ${new Date().toISOString()} ${msg}`, ...args),
+  warn: (msg: string, ...args: unknown[]) =>
+    // eslint-disable-next-line no-console
+    console.warn(`[Respiro][WARN]  ${new Date().toISOString()} ${msg}`, ...args),
+  error: (msg: string, ...args: unknown[]) =>
+    // eslint-disable-next-line no-console
+    console.error(`[Respiro][ERROR] ${new Date().toISOString()} ${msg}`, ...args),
+};
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -229,7 +245,7 @@ async function callGemini(prompt: string): Promise<string> {
 
   if (!response.ok) {
     const errorText = await response.text();
-    console.error(`Gemini API error [${response.status}]:`, errorText);
+    logger.error(`Gemini API error [${response.status}]:`, errorText);
     throw new Error(`Gemini API responded with status ${response.status}`);
   }
 
@@ -343,7 +359,7 @@ Return only JSON.
 
       return res.status(200).json(parsed);
     } catch (aiErr) {
-      console.warn('Gemini inference unavailable, returning calibrated baseline response', aiErr);
+      logger.warn('Gemini inference unavailable, returning calibrated baseline response', aiErr);
       const fallback = {
         timestamp: Date.now(),
         persona: profile.persona,
@@ -393,7 +409,7 @@ Return only JSON.
       return res.status(200).json(fallback);
     }
   } catch (err) {
-    console.error('Unhandled error in /api/routine-insights:', err);
+    logger.error('Unhandled error in /api/routine-insights:', err);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -501,7 +517,7 @@ Return only JSON.
       return res.status(200).json(fallback);
     }
   } catch (err) {
-    console.error('Unhandled error in /api/translate:', err);
+    logger.error('Unhandled error in /api/translate:', err);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -531,7 +547,7 @@ app.get('*splat', (_req: Request, res: Response) => {
 // ------------------------------------------------------------
 
 app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
-  console.error('[SECURITY AUDIT] Unhandled Server Exception:', err);
+  logger.error('[SECURITY AUDIT] Unhandled Server Exception:', err);
   // Never leak err.message or stack trace to clients (CWE-209)
   res.status(500).json({ error: 'Internal Server Error' });
 });
@@ -541,9 +557,9 @@ app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
 // ------------------------------------------------------------
 
 export const server = app.listen(PORT, () => {
-  console.log(`[Respiro] Express 5 Gateway listening on port ${PORT}`);
-  console.log(`[Respiro] Target GenAI Model: ${GEMINI_MODEL}`);
-  console.log(`[Respiro] Security: Helmet CSP, Dynamic CORS, 15KB Cap, RateLimiter (30/min)`);
+  logger.info(`Express 5 Gateway listening on port ${PORT}`);
+  logger.info(`Target GenAI Model: ${GEMINI_MODEL}`);
+  logger.info(`Security: Helmet CSP, Dynamic CORS, 15KB Cap, RateLimiter (30/min)`);
 });
 
 export default app;

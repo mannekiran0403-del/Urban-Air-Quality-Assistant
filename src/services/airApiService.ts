@@ -6,6 +6,13 @@
 
 import type { UserProfile, SectorData, RoutineInsightReport, LanguageCode, TranslationAdvisory } from '@/types';
 
+/** Dev-only logger: logs only in non-production builds to avoid console noise in production. */
+const devLog = {
+  warn: (msg: string, ...args: unknown[]) => {
+    if (import.meta.env.DEV) console.warn(`[AirApiService] ${msg}`, ...args); // eslint-disable-line no-console
+  },
+};
+
 const getApiBase = (): string => {
   if (import.meta.env?.VITE_API_URL) {
     return (import.meta.env.VITE_API_URL as string).replace(/\/$/, '');
@@ -42,7 +49,7 @@ export const airApiService = {
       const data = await res.json();
       return data;
     } catch (err) {
-      console.warn('Backend routine optimizer unavailable; using deterministic baseline fallback', err);
+      devLog.warn('Backend routine optimizer unavailable; using deterministic baseline fallback', err);
       return generateFallbackRoutine(profile, sector);
     }
   },
@@ -62,7 +69,7 @@ export const airApiService = {
 
       return await res.json();
     } catch (err) {
-      console.warn('Backend translation unavailable; using multilingual fallback', err);
+      devLog.warn('Backend translation unavailable; using multilingual fallback', err);
       return generateFallbackTranslation(language, sector);
     }
   },

@@ -7,22 +7,54 @@
 // - Responsive multi-tier dashboard (Hero, AQI Gauge, Chat, Timeline, Hacks, Impact)
 // ============================================================
 
-import { memo, useState } from 'react';
+import { memo, useState, lazy, Suspense } from 'react';
 import type { TabId } from '@/types';
 
 import { AppContextProvider, useApp } from '@/context/AppContext';
 import { AlertBanner } from '@/components/shared/AlertBanner';
 import { SectorInputForm } from '@/components/shared/SectorInputForm';
 import { HomeDashboard } from '@/components/Home/HomeDashboard';
-import { AQIHeatmap } from '@/components/Dashboard/AQIHeatmap';
-import { PollutantCards } from '@/components/Dashboard/PollutantCards';
-import { AIInsightsPanel } from '@/components/Dashboard/AIInsightsPanel';
-import { ExposureNavigator } from '@/components/Navigation/ExposureNavigator';
-import { CADRCalculator } from '@/components/IAQ/CADRCalculator';
-import { DIYPurifierHacks } from '@/components/IAQ/DIYPurifierHacks';
-import { EmissionPledges } from '@/components/Community/EmissionPledges';
-import { VolunteerWatch } from '@/components/Community/VolunteerWatch';
-import { MultilingualSmogAssistant } from '@/components/Multilingual/MultilingualSmogAssistant';
+
+// Lazy-loaded tab panels — each tab chunk is fetched only when first visited,
+// reducing the initial JS bundle and improving Time-to-Interactive.
+const AQIHeatmap = lazy(() =>
+  import('@/components/Dashboard/AQIHeatmap').then((m) => ({ default: m.AQIHeatmap }))
+);
+const PollutantCards = lazy(() =>
+  import('@/components/Dashboard/PollutantCards').then((m) => ({ default: m.PollutantCards }))
+);
+const AIInsightsPanel = lazy(() =>
+  import('@/components/Dashboard/AIInsightsPanel').then((m) => ({ default: m.AIInsightsPanel }))
+);
+const ExposureNavigator = lazy(() =>
+  import('@/components/Navigation/ExposureNavigator').then((m) => ({ default: m.ExposureNavigator }))
+);
+const CADRCalculator = lazy(() =>
+  import('@/components/IAQ/CADRCalculator').then((m) => ({ default: m.CADRCalculator }))
+);
+const DIYPurifierHacks = lazy(() =>
+  import('@/components/IAQ/DIYPurifierHacks').then((m) => ({ default: m.DIYPurifierHacks }))
+);
+const EmissionPledges = lazy(() =>
+  import('@/components/Community/EmissionPledges').then((m) => ({ default: m.EmissionPledges }))
+);
+const VolunteerWatch = lazy(() =>
+  import('@/components/Community/VolunteerWatch').then((m) => ({ default: m.VolunteerWatch }))
+);
+const MultilingualSmogAssistant = lazy(() =>
+  import('@/components/Multilingual/MultilingualSmogAssistant').then((m) => ({
+    default: m.MultilingualSmogAssistant,
+  }))
+);
+
+/** Lightweight spinner shown while a lazy chunk is downloading. */
+function TabLoader() {
+  return (
+    <div className="flex items-center justify-center py-20" aria-label="Loading panel" role="status">
+      <span className="w-8 h-8 rounded-full border-4 border-violet-200 border-t-violet-600 animate-spin" />
+    </div>
+  );
+}
 
 interface NavItem {
   id: TabId;
@@ -417,45 +449,47 @@ const AppShell = memo(function AppShell() {
             />
           )}
 
-          {activeTab === 'telemetry' && (
-            <div id="panel-telemetry" role="tabpanel" aria-labelledby="tab-telemetry" className="flex flex-col gap-5">
-              <AQIHeatmap />
-              <PollutantCards />
-            </div>
-          )}
+          <Suspense fallback={<TabLoader />}>
+            {activeTab === 'telemetry' && (
+              <div id="panel-telemetry" role="tabpanel" aria-labelledby="tab-telemetry" className="flex flex-col gap-5">
+                <AQIHeatmap />
+                <PollutantCards />
+              </div>
+            )}
 
-          {activeTab === 'routine' && (
-            <div id="panel-routine" role="tabpanel" aria-labelledby="tab-routine" className="flex flex-col gap-5">
-              <AIInsightsPanel />
-              <PollutantCards />
-            </div>
-          )}
+            {activeTab === 'routine' && (
+              <div id="panel-routine" role="tabpanel" aria-labelledby="tab-routine" className="flex flex-col gap-5">
+                <AIInsightsPanel />
+                <PollutantCards />
+              </div>
+            )}
 
-          {activeTab === 'iaq' && (
-            <div id="panel-iaq" role="tabpanel" aria-labelledby="tab-iaq" className="flex flex-col gap-5">
-              <CADRCalculator />
-              <DIYPurifierHacks />
-            </div>
-          )}
+            {activeTab === 'iaq' && (
+              <div id="panel-iaq" role="tabpanel" aria-labelledby="tab-iaq" className="flex flex-col gap-5">
+                <CADRCalculator />
+                <DIYPurifierHacks />
+              </div>
+            )}
 
-          {activeTab === 'commute' && (
-            <div id="panel-commute" role="tabpanel" aria-labelledby="tab-commute" className="flex flex-col gap-5">
-              <ExposureNavigator />
-            </div>
-          )}
+            {activeTab === 'commute' && (
+              <div id="panel-commute" role="tabpanel" aria-labelledby="tab-commute" className="flex flex-col gap-5">
+                <ExposureNavigator />
+              </div>
+            )}
 
-          {activeTab === 'community' && (
-            <div id="panel-community" role="tabpanel" aria-labelledby="tab-community" className="flex flex-col gap-5">
-              <EmissionPledges />
-              <VolunteerWatch />
-            </div>
-          )}
+            {activeTab === 'community' && (
+              <div id="panel-community" role="tabpanel" aria-labelledby="tab-community" className="flex flex-col gap-5">
+                <EmissionPledges />
+                <VolunteerWatch />
+              </div>
+            )}
 
-          {activeTab === 'multilingual' && (
-            <div id="panel-multilingual" role="tabpanel" aria-labelledby="tab-multilingual" className="flex flex-col gap-5">
-              <MultilingualSmogAssistant />
-            </div>
-          )}
+            {activeTab === 'multilingual' && (
+              <div id="panel-multilingual" role="tabpanel" aria-labelledby="tab-multilingual" className="flex flex-col gap-5">
+                <MultilingualSmogAssistant />
+              </div>
+            )}
+          </Suspense>
         </main>
 
         {/* 5. Accessible Footer Landmark */}

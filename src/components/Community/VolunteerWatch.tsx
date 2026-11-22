@@ -106,10 +106,10 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
       prev.map(r =>
         r.id === resId
           ? {
-              ...r,
-              assistanceStatus:
-                r.assistanceStatus === 'Checked-In' ? 'Pending Patrol' : 'Checked-In',
-            }
+            ...r,
+            assistanceStatus:
+              r.assistanceStatus === 'Checked-In' ? 'Pending Patrol' : 'Checked-In',
+          }
           : r
       )
     );
@@ -124,7 +124,7 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
         <div>
           <h2 className="text-sm font-bold text-slate-900 tracking-tight flex items-center gap-2">
             <span>🛡️</span>
-            <span>Citizen Vigilance: Volunteer Anti-Burn Patrol & Vulnerable Check-Ins</span>
+            <span>Volunteer Anti-Burn Patrol & Vulnerable Check-Ins</span>
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
             Empower neighborhood volunteers to detect illegal toxic combustion hotspots and deliver clean-air assistance to high-risk residents.
@@ -231,11 +231,10 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-slate-900 text-xs">{inc.type.replace('-', ' ').toUpperCase()}</span>
                       <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                          isCritical
-                            ? 'bg-rose-50 text-rose-700 border-rose-200'
-                            : 'bg-amber-50 text-amber-800 border-amber-200'
-                        }`}
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isCritical
+                          ? 'bg-rose-50 text-rose-700 border-rose-200'
+                          : 'bg-amber-50 text-amber-800 border-amber-200'
+                          }`}
                       >
                         {inc.severity}
                       </span>
@@ -281,11 +280,10 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
                 <button
                   type="button"
                   onClick={() => toggleResidentCheckin(r.id)}
-                  className={`w-full py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                    isChecked
-                      ? 'bg-emerald-600 text-white shadow-2xs'
-                      : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
-                  }`}
+                  className={`w-full py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${isChecked
+                    ? 'bg-emerald-600 text-white shadow-2xs'
+                    : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                    }`}
                 >
                   {isChecked ? '✓ Checked-In Today' : 'Mark Visited & Assisted'}
                 </button>
