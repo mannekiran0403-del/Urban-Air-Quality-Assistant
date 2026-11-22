@@ -1,10 +1,16 @@
 // ============================================================
 // src/App.tsx
-// Respiro AI SaaS Application Shell
-// Precise implementation of target reference design:
-// - Left navigation sidebar with custom icons & bottom illustration
-// - Top header with dynamic location picker, notification center, and user avatar
-// - Responsive multi-tier dashboard (Hero, AQI Gauge, Chat, Timeline, Hacks, Impact)
+// Respiro AI — SaaS Application Shell & Navigation Coordinator
+// Implements the target reference SaaS design:
+//   - Fixed left navigation sidebar with inline SVG icon set
+//   - Top header: location picker, notification centre, user avatar
+//   - Main content area with per-tab lazy chunk loading (Suspense)
+// Per EFFICIENCY.md §5: React.lazy() + Suspense for every secondary
+//   tab so the initial JS parse cost is limited to the home view only.
+// Per ACCESSIBILITY.md §1: role="navigation", role="tablist",
+//   aria-current, aria-labelledby on every tab panel.
+// Per EFFICIENCY.md §2: React.memo prevents full-tree re-renders
+//   when only a nested state slice changes.
 // ============================================================
 
 import { memo, useState, lazy, Suspense } from 'react';

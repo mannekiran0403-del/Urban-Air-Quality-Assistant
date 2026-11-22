@@ -1,3 +1,13 @@
+// ============================================================
+// src/components/Home/HeroBanner.tsx
+// Hero Section Banner — above-the-fold welcome card
+// Renders a full-bleed panoramic skyline background with a
+// left-side gradient mask for typographic legibility and
+// four floating glassmorphic feature shortcut cards on the right.
+// Per ACCESSIBILITY.md §2: role="banner", aria-label on section
+// Per EFFICIENCY.md §2: React.memo prevents unnecessary re-renders
+// ============================================================
+
 import { memo } from 'react';
 import type { TabId } from '@/types';
 import heroBannerBg from '@/assets/hero-banner-bg.jpg';

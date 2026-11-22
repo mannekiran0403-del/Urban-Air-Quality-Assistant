@@ -1,3 +1,20 @@
+// ============================================================
+// vite.config.ts
+// Vite 6 Build & Dev Configuration for Respiro AI
+// Per EFFICIENCY.md §5: manualChunks splits each feature domain
+//   into its own async chunk — combined with React.lazy() this
+//   reduces the initial JS parse budget to the home view only.
+//   Chunk map:
+//     vendor      → react + react-dom (framework primitives)
+//     dashboard   → AQI heatmap, pollutant cards, AI insights
+//     navigation  → Dijkstra commute exposure navigator
+//     iaq         → CADR calculator + DIY purifier blueprints
+//     community   → Emission pledges + volunteer patrol desk
+//     multilingual→ 6-language emergency translation panel
+// Per SECURITY.md §7: Dev-proxy forwards /api/* to Express 3001
+//   so CORS never applies in local development.
+// ============================================================
+
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';

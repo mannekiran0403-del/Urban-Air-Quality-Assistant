@@ -1,7 +1,13 @@
 // ============================================================
 // src/services/airApiService.ts
-// Client-side API wrapper communicating with server.ts
-// Per SECURITY.md: zero API keys on client; structured error recovery
+// Client-side HTTP wrapper for the Respiro Express 5 API Gateway
+// Per SECURITY.md: Zero API keys ever stored on the client.
+//   All Gemini inference runs exclusively on the server (server.ts).
+// Per ARCHITECTURE-PATTERNS.md §3: Deterministic offline fallback
+//   engine ensures full functionality even when the backend or
+//   Open-Meteo is unreachable (network-first, then local fallback).
+// Per EFFICIENCY.md §4: devLog suppressed in production builds —
+//   console noise is dev-only and eliminated at import.meta.env.DEV.
 // ============================================================
 
 import type { UserProfile, SectorData, RoutineInsightReport, LanguageCode, TranslationAdvisory } from '@/types';
