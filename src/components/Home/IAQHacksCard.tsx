@@ -1,3 +1,14 @@
+// ============================================================
+// src/components/Home/IAQHacksCard.tsx
+// Indoor Air Quality (IAQ) Essential Hacks & Visualizer Card
+// Renders practical indoor air optimization rules:
+// - Illustrated HEPA scrubber and botanical graphic
+// - Actionable verification checklist (humidity, filtration, sealing)
+// - Science-calibrated guidance on micro-particulate mitigation
+// Per ACCESSIBILITY.md §1: aria-label on card and decorative SVGs hidden
+// Per EFFICIENCY.md §2: React.memo with immutable checklist definitions
+// ============================================================
+
 import { memo } from 'react';
 
 const IAQ_HACKS = [
@@ -8,6 +19,9 @@ const IAQ_HACKS = [
   'Maintain indoor humidity (40-60%)',
 ];
 
+/**
+ * Visual card displaying essential indoor air quality hacks and hardware checklist
+ */
 export const IAQHacksCard = memo(function IAQHacksCard() {
   return (
     <article

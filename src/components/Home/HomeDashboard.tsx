@@ -1,3 +1,15 @@
+// ============================================================
+// src/components/Home/HomeDashboard.tsx
+// Home Command Dashboard & Navigation Orchestrator
+// Renders the SaaS command center:
+// - Top Hero Banner with feature shortcuts
+// - Mid-tier 3-column telemetry & AI recommendations row
+// - Bottom-tier 3-column routine, IAQ hacks & impact tracker row
+// - Interactive "How It Works" accessible modal dialog
+// Per ACCESSIBILITY.md §2: role="dialog", aria-modal="true"
+// Per EFFICIENCY.md §2: React.memo prevents full-page re-renders
+// ============================================================
+
 import { memo, useState } from 'react';
 import type { SectorData, TabId } from '@/types';
 import { HeroBanner } from './HeroBanner';
@@ -8,11 +20,19 @@ import { LowEmissionRoutineTimeline } from './LowEmissionRoutineTimeline';
 import { IAQHacksCard } from './IAQHacksCard';
 import { EnvironmentalImpactCard } from './EnvironmentalImpactCard';
 
+/**
+ * Props for the HomeDashboard component
+ */
 interface HomeDashboardProps {
+  /** Active telemetry sector containing AQI, PM2.5, and inversion risk */
   sector: SectorData;
+  /** Callback to switch active application tab view */
   onNavigateTab: (tab: TabId) => void;
 }
 
+/**
+ * Unified Home Command Center assembling the primary SaaS widgets
+ */
 export const HomeDashboard = memo(function HomeDashboard({
   sector,
   onNavigateTab,

@@ -1,11 +1,31 @@
+// ============================================================
+// src/components/Home/CurrentAQICard.tsx
+// Real-time AQI Gauge & EPA Category Meter Card
+// Renders the real-time sector air quality summary:
+// - Live indicator badge and timestamp
+// - Prominent numeric AQI value with dynamic category pill
+// - Multi-segment color gauge with calibrated pointer position
+// - Actionable telemetry link to deep-dive analytics tab
+// Per ACCESSIBILITY.md §1: aria-label on card and gauge scale
+// Per EFFICIENCY.md §2: React.useMemo for gauge math and colors
+// ============================================================
+
 import { memo, useMemo } from 'react';
 import type { SectorData } from '@/types';
 
+/**
+ * Props for the CurrentAQICard component
+ */
 interface CurrentAQICardProps {
+  /** Environmental telemetry object for current sector */
   sector: SectorData;
+  /** Optional callback to navigate to full telemetry heatmap */
   onViewDetails?: () => void;
 }
 
+/**
+ * Visual gauge card displaying active AQI and severity level
+ */
 export const CurrentAQICard = memo(function CurrentAQICard({
   sector,
   onViewDetails,

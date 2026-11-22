@@ -1,5 +1,17 @@
+// ============================================================
+// src/components/Home/LowEmissionRoutineTimeline.tsx
+// Chronological Low-Emission Daily Routine Timeline
+// Renders the connected vertical day schedule:
+// - Step-by-step timeline nodes with continuous connecting rail
+// - Morning workout, transit, IAQ filtration, and cooking times
+// - Calibrated timing based on diurnal atmospheric boundary patterns
+// Per ACCESSIBILITY.md §1: aria-label on timeline card and nodes
+// Per EFFICIENCY.md §2: React.memo with static step definitions
+// ============================================================
+
 import { memo } from 'react';
 
+/** Schema for a chronological routine schedule entry */
 interface RoutineStep {
   time: string;
   activity: string;
@@ -14,6 +26,9 @@ const ROUTINE_STEPS: RoutineStep[] = [
   { time: '8:00 PM', activity: 'Cook with low-emission options' },
 ];
 
+/**
+ * Vertical connected timeline displaying today's optimized low-emission routine
+ */
 export const LowEmissionRoutineTimeline = memo(function LowEmissionRoutineTimeline() {
   return (
     <article

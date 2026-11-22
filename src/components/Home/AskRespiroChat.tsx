@@ -1,6 +1,19 @@
+// ============================================================
+// src/components/Home/AskRespiroChat.tsx
+// Embedded GenAI Atmospheric Assistant & Telemetry Chat Widget
+// Renders the quick-inquiry conversational assistant:
+// - Live sector telemetry integration (AQI, PM2.5, inversion)
+// - Context-aware advice generation on masks, workouts, purifiers
+// - Accessible message feed with auto-scrolling
+// - Keyboard-accessible query input with submission state
+// Per ACCESSIBILITY.md §1: aria-label on form inputs and message feed
+// Per EFFICIENCY.md §2: React.memo prevents chat input re-render cascades
+// ============================================================
+
 import { memo, useState, useRef, useEffect, type FormEvent } from 'react';
 import type { SectorData } from '@/types';
 
+/** Chat dialogue message schema */
 interface Message {
   id: string;
   sender: 'user' | 'assistant';
@@ -8,10 +21,17 @@ interface Message {
   timestamp: number;
 }
 
+/**
+ * Props for AskRespiroChat component
+ */
 interface AskRespiroChatProps {
+  /** Active environmental telemetry sector context */
   sector: SectorData;
 }
 
+/**
+ * Interactive micro-chat widget for rapid clean air & routine queries
+ */
 export const AskRespiroChat = memo(function AskRespiroChat({ sector }: AskRespiroChatProps) {
   const [messages, setMessages] = useState<Message[]>([
     {

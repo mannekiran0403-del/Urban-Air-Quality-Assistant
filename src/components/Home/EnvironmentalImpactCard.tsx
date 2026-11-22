@@ -1,5 +1,19 @@
+// ============================================================
+// src/components/Home/EnvironmentalImpactCard.tsx
+// Environmental Impact & Carbon Reduction Metric Card
+// Renders the user's personal environmental contribution:
+// - Estimated monthly CO2e emissions avoided
+// - Litres of transport fuel saved via active transit choices
+// - Tangible tree-planting equivalence calculation
+// Per ACCESSIBILITY.md §1: aria-label on card and metric callouts
+// Per EFFICIENCY.md §2: React.memo prevents unnecessary recalculations
+// ============================================================
+
 import { memo } from 'react';
 
+/**
+ * Metric card showcasing personal environmental benefits and emission savings
+ */
 export const EnvironmentalImpactCard = memo(function EnvironmentalImpactCard() {
   return (
     <article

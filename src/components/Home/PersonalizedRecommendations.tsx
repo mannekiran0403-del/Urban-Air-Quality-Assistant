@@ -1,5 +1,19 @@
+// ============================================================
+// src/components/Home/PersonalizedRecommendations.tsx
+// Daily AI Smog Defense & Lifestyle Recommendations
+// Renders actionable daily guidance tailored to ambient air:
+// - Interactive actionable checklist (transport, purifier, routines)
+// - Quantified CO2e and emission reduction badges
+// - Completion state toggle with smooth visual feedback
+// Per ACCESSIBILITY.md §3: Accessible button states & aria-checked
+// Per EFFICIENCY.md §2: React.memo prevents unnecessary rerenders
+// ============================================================
+
 import { memo, useState } from 'react';
 
+/**
+ * Individual recommendation item definition
+ */
 interface RecommendationItem {
   id: string;
   icon: string;
@@ -38,6 +52,9 @@ const INITIAL_RECOMMENDATIONS: RecommendationItem[] = [
   },
 ];
 
+/**
+ * Interactive checklist component for daily personalized clean air recommendations
+ */
 export const PersonalizedRecommendations = memo(function PersonalizedRecommendations() {
   const [items, setItems] = useState<RecommendationItem[]>(INITIAL_RECOMMENDATIONS);
 
