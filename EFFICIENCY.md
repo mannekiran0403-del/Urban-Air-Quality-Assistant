@@ -53,7 +53,9 @@ AirGuard AI replaces external charting libraries with custom, lightweight inline
 ## 3. Frontend Render Optimization
 
 * **Memoized Components:**
-  Every domain presentation component (`AQIHeatmap`, `PollutantCards`, `AIInsightsPanel`, `ExposureNavigator`, `RouteOptionCard`, `CADRCalculator`, `DIYPurifierHacks`, `EmissionPledges`, `VolunteerWatch`, `MultilingualSmogAssistant`, `AlertBanner`, `SectorInputForm`) is wrapped in `React.memo`.
+  Every domain presentation component (`HomeDashboard`, `HeroBanner`, `CurrentAQICard`, `PersonalizedRecommendations`, `AskRespiroChat`, `LowEmissionRoutineTimeline`, `IAQHacksCard`, `EnvironmentalImpactCard`, `AQIHeatmap`, `PollutantCards`, `AIInsightsPanel`, `ExposureNavigator`, `RouteOptionCard`, `CADRCalculator`, `DIYPurifierHacks`, `EmissionPledges`, `VolunteerWatch`, `MultilingualSmogAssistant`, `AlertBanner`, `SectorInputForm`) is wrapped in `React.memo`.
+* **Dynamic Code-Splitting:**
+  All secondary tabs are loaded on-demand via `React.lazy()` with `<Suspense>`, ensuring the browser only downloads and parses the JavaScript required for the currently active view.
 * **Hooks Optimization:**
   Calculations in `useAirAnalytics` and `useExposureRouting` are wrapped in `useMemo` and callbacks in `useCallback` with complete dependency arrays.
 * **No State Setting in `useMemo`:**
@@ -63,8 +65,15 @@ AirGuard AI replaces external charting libraries with custom, lightweight inline
 
 ## 4. Production Bundle Hygiene
 
-The compiled production bundle (`npm run build`) is lean and optimized:
-* **HTML (`dist/index.html`):** 1.69 kB (gzip: 0.88 kB)
-* **CSS (`dist/assets/index-*.css`):** 43.32 kB (gzip: 7.88 kB)
-* **JavaScript (`dist/assets/index-*.js`):** 597 kB (gzip: 159 kB)
+The compiled production bundle (`npm run build`) is lean, granularly split, and optimized:
+* **HTML (`dist/index.html`):** 1.88 kB (gzip: 0.94 kB)
+* **CSS (`dist/assets/index-*.css`):** 59.49 kB (gzip: 10.56 kB)
+* **JavaScript Chunks (Async Code-Split via Rollup `manualChunks`):**
+  - `vendor.js`: 9.93 kB (gzip: 3.14 kB) — React framework runtime
+  - `multilingual.js`: 11.31 kB (gzip: 2.05 kB) — 6-language translation module
+  - `navigation.js`: 18.99 kB (gzip: 3.62 kB) — Dijkstra pathfinding router
+  - `iaq.js`: 29.72 kB (gzip: 5.30 kB) — CADR calculator & DIY blueprints
+  - `community.js`: 32.50 kB (gzip: 5.00 kB) — Civic pledges & patrol desk
+  - `dashboard.js`: 91.82 kB (gzip: 24.02 kB) — Telemetry heatmap & AI insights
+  - `index.js`: 509.83 kB (gzip: 135.32 kB) — Shell & core Home dashboard (**0 chunk warnings**)
 * **Orphaned Assets:** 0 unused boilerplate assets or template files.

@@ -11,6 +11,7 @@
 // ============================================================
 
 import { memo, useMemo } from 'react';
+
 import type { SectorData } from '@/types';
 
 /**

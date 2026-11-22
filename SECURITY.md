@@ -102,7 +102,7 @@ app.use(
   The server's global error handler logs error details server-side while always returning a safe generic JSON object to external clients:
   ```typescript
   app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
-    console.error('[SECURITY AUDIT] Unhandled Server Exception:', err);
+    logger.error('[SECURITY AUDIT] Unhandled Server Exception:', err);
     res.status(500).json({ error: 'Internal Server Error' });
   });
   ```
@@ -111,7 +111,16 @@ app.use(
 
 ---
 
-## 5. Cloud Database Access Isolation (`firestore.rules` — CWE-284)
+## 5. Structured Server Logging & Client Noise Isolation
+
+1. **Structured Server Logger (`server.ts`):**
+   Server output uses an ISO-timestamped, tagged logger (`logger.info`, `logger.warn`, `logger.error`), ensuring logs are machine-readable and never leak raw stack traces into response payloads.
+2. **Dev-Only Client Logging (`airApiService.ts`):**
+   Client logging is wrapped in `devLog.warn()`, which only executes when `import.meta.env.DEV` is true. Production builds ship with zero console noise or diagnostic leakage.
+
+---
+
+## 6. Cloud Database Access Isolation (`firestore.rules` — CWE-284)
 
 Per-user isolation is enforced at the database engine level:
 ```javascript

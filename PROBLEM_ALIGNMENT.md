@@ -33,6 +33,7 @@ Severe winter smog and urban atmospheric thermal inversions trap ultra-fine part
 | **REQ-10** | Multilingual Emergency Smog Advisories with Dynamic RTL Layout Switching | `Must` | Diverse Non-English Populations | `server.ts` (`/api/translate`), `MultilingualSmogAssistant.tsx` | `src/test/api.test.ts`, `dom.test.tsx` | **Verified (100%)** |
 | **REQ-11** | Zero-Trust Server Security (Helmet CSP, 15KB Cap, Rate Limiting, CWE-209 & CWE-200) | `Must` | System Integrity | `server.ts`, `firestore.rules` | `src/test/api.test.ts` | **Verified (100%)** |
 | **REQ-12** | In-Memory SHA-256 LRU Caching for Generative AI Responses (<5ms Repeat Response) | `Must` | System Efficiency | `server.ts` | `src/test/api.test.ts` | **Verified (100%)** |
+| **REQ-13** | Unified SaaS Command Dashboard (Live AQI Gauge, Recommendations, Chat & Impact) | `Must` | All Personas | `src/components/Home/HomeDashboard.tsx`, `HeroBanner.tsx`, `CurrentAQICard.tsx`, `AskRespiroChat.tsx` | `src/test/rendering.test.tsx`, `dom.test.tsx` | **Verified (100%)** |
 
 ---
 

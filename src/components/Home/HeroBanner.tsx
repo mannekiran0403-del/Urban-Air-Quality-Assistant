@@ -9,7 +9,9 @@
 // ============================================================
 
 import { memo } from 'react';
+
 import type { TabId } from '@/types';
+
 import heroBannerBg from '@/assets/hero-banner-bg.jpg';
 
 interface HeroBannerProps {

@@ -11,7 +11,9 @@
 // ============================================================
 
 import { memo, useState } from 'react';
+
 import type { SectorData, TabId } from '@/types';
+
 import { HeroBanner } from './HeroBanner';
 import { CurrentAQICard } from './CurrentAQICard';
 import { PersonalizedRecommendations } from './PersonalizedRecommendations';

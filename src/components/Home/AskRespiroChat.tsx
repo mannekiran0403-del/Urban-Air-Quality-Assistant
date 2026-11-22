@@ -10,7 +10,9 @@
 // Per EFFICIENCY.md §2: React.memo prevents chat input re-render cascades
 // ============================================================
 
-import { memo, useState, useRef, useEffect, type FormEvent } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
+import type { FormEvent } from 'react';
+
 import type { SectorData } from '@/types';
 
 /** Chat dialogue message schema */
