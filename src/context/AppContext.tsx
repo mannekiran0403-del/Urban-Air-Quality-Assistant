@@ -38,7 +38,7 @@ export interface AppContextType {
 const AppContext = createContext<AppContextType | null>(null);
 
 export function AppContextProvider({ children }: { children: ReactNode }) {
-  const [activeTab, setActiveTabState] = useState<TabId>('telemetry');
+  const [activeTab, setActiveTabState] = useState<TabId>('home');
   const [sectors, setSectors] = useState<SectorData[]>(DEFAULT_SECTORS);
   const [selectedSectorId, setSelectedSectorId] = useState<string>('SEC-01');
   const [userProfile, setUserProfileState] = useState<UserProfile>(() => storageService.getProfile() || DEFAULT_USER_PROFILE);

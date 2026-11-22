@@ -179,7 +179,7 @@ export interface SmogIncidentReport {
   status: 'Reported' | 'Dispatched' | 'Resolved';
 }
 
-export type TabId = 'telemetry' | 'routine' | 'commute' | 'iaq' | 'community' | 'multilingual';
+export type TabId = 'home' | 'telemetry' | 'routine' | 'commute' | 'iaq' | 'community' | 'multilingual' | 'sustainable' | 'impact';
 
 export type LanguageCode = 'en' | 'hi' | 'ar' | 'es' | 'fr' | 'ur';
 
