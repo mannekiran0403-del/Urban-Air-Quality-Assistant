@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+:root {
+  --color-airguard-bg: #020817;
+  --color-airguard-surface: #0f172a;
+  --color-airguard-green: #10b981;
+  --color-airguard-blue: #0ea5e9;
+  --color-airguard-amber: #f59e0b;
+  --color-airguard-red: #ef4444;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #020817;
+  color: #f1f5f9;
+  overflow-x: hidden;
+}
+
+/* RTL Typography */
+[dir="rtl"], .font-arabic {
+  font-family: 'Noto Sans Arabic', 'Tahoma', system-ui, sans-serif;
+}
+
+/* Glassmorphism Surface */
+.glass-card {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 1rem;
+}
+
+/* High-Contrast Accessible Focus Rings (WCAG 2.2 AA) */
+:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* Subtle Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #020817;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+
+/* ============================================================ */
+/* Light & Dark Theme System                                   */
+/* ============================================================ */
+
+:root, .dark, [data-theme="dark"] {
+  color-scheme: dark;
+  --bg-primary: #0d1117;
+  --bg-surface: #161b22;
+  --bg-subtle: #21262d;
+  --border-color: #30363d;
+  --border-subtle: #21262d;
+  --text-primary: #f0f6fc;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --scrollbar-track: #0d1117;
+  --scrollbar-thumb: #30363d;
+}
+
+.light, [data-theme="light"] {
+  color-scheme: light;
+  --bg-primary: #f6f8fa;
+  --bg-surface: #ffffff;
+  --bg-subtle: #eaeef2;
+  --border-color: #d0d7de;
+  --border-subtle: #e1e4e8;
+  --text-primary: #1f2328;
+  --text-secondary: #24292f;
+  --text-muted: #57606a;
+  --scrollbar-track: #f6f8fa;
+  --scrollbar-thumb: #d0d7de;
+}
+
+/* Light Theme Overrides */
+.light body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+.light .bg-\[\#0d1117\] {
+  background-color: var(--bg-primary) !important;
+}
+
+.light .bg-\[\#161b22\] {
+  background-color: var(--bg-surface) !important;
+}
+
+.light .bg-\[\#21262d\] {
+  background-color: var(--bg-subtle) !important;
+}
+
+.light .hover\:bg-\[\#30363d\]:hover {
+  background-color: #d0d7de !important;
+}
+
+.light .border-\[\#30363d\] {
+  border-color: var(--border-color) !important;
+}
+
+.light .border-\[\#21262d\] {
+  border-color: var(--border-subtle) !important;
+}
+
+/* Typography in Light Mode */
+.light .text-white,
+.light .text-slate-100 {
+  color: var(--text-primary) !important;
+}
+
+.light .text-slate-200 {
+  color: var(--text-secondary) !important;
+}
+
+.light .text-slate-300 {
+  color: #32383f !important;
+}
+
+.light .text-slate-400 {
+  color: var(--text-muted) !important;
+}
+
+.light .text-slate-500 {
+  color: #6e7781 !important;
+}
+
+/* Form Controls in Light Mode */
+.light select,
+.light input[type="text"],
+.light input[type="number"] {
+  background-color: #ffffff !important;
+  color: #1f2328 !important;
+  border-color: var(--border-color) !important;
+}
+
+.light select:focus,
+.light input[type="text"]:focus,
+.light input[type="number"]:focus {
+  border-color: #0969da !important;
+}
+
+.light option {
+  background-color: #ffffff !important;
+  color: #1f2328 !important;
+}
+
+/* Status Badges & Alerts in Light Mode */
+.light .bg-\[\#062d1f\] {
+  background-color: #dafbe1 !important;
+  border-color: #82e59a !important;
+  color: #1a7f37 !important;
+}
+
+.light .bg-\[\#06241a\] {
+  background-color: #f0fdf4 !important;
+  border-color: #bbf7d0 !important;
+}
+
+.light .bg-\[\#331114\],
+.light .bg-\[\#3b1216\],
+.light .bg-\[\#241215\] {
+  background-color: #ffebe9 !important;
+  border-color: #ffc1c0 !important;
+  color: #cf222e !important;
+}
+
+.light .bg-\[\#1f1315\] {
+  background-color: #ffebe9 !important;
+  border-color: #cf222e !important;
+  color: #82071e !important;
+}
+
+.light .bg-\[\#2e1d08\],
+.light .bg-\[\#241a0d\] {
+  background-color: #fff8c5 !important;
+  border-color: #eac54f !important;
+  color: #9a6700 !important;
+}
+
+.light .bg-\[\#0c2135\] {
+  background-color: #ddf4ff !important;
+  border-color: #80ccff !important;
+  color: #0969da !important;
+}
+
+/* Accent Colors in Light Mode */
+.light .text-emerald-400 {
+  color: #1a7f37 !important;
+}
+
+.light .text-sky-400 {
+  color: #0969da !important;
+}
+
+.light .text-amber-400 {
+  color: #9a6700 !important;
+}
+
+.light .text-red-400 {
+  color: #cf222e !important;
+}
+
+.light .text-sky-200 {
+  color: #0550ae !important;
+}
+
+.light .text-red-200 {
+  color: #82071e !important;
+}
+
+/* Heatmap SVG in Light Mode */
+.light #urbanGrid path {
+  stroke: rgba(208, 215, 222, 0.7) !important;
+}
+
+.light line[stroke="#334155"] {
+  stroke: #d0d7de !important;
+}
+
+.light svg text {
+  fill: #1f2328 !important;
+}
+
+/* Scrollbar Theme Sync */
+.light ::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+.light ::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+}
+.light ::-webkit-scrollbar-thumb:hover {
+  background: #afb8c1;
+}
