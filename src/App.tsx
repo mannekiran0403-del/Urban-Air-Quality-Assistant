@@ -118,8 +118,6 @@ const AppShell = memo(function AppShell() {
     setSelectedSectorId,
     sectors,
     userProfile,
-    theme,
-    toggleTheme,
   } = useApp();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -386,17 +384,6 @@ const AppShell = memo(function AppShell() {
               title={`${userProfile.name} (${userProfile.persona})`}
             >
               A
-            </button>
-
-            {/* Subtle Theme Toggle */}
-            <button
-              type="button"
-              onClick={toggleTheme}
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              className="w-9 h-9 rounded-full bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs flex items-center justify-center text-xs transition-colors cursor-pointer text-slate-600"
-            >
-              <span aria-hidden="true">{theme === 'dark' ? '☀️' : '🌙'}</span>
             </button>
           </div>
         </header>

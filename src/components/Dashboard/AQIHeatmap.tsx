@@ -13,11 +13,11 @@ import type { SectorData } from '@/types';
 import { useApp } from '@/context/AppContext';
 
 function getCategoryColor(aqi: number): { fill: string; stroke: string; text: string; bg: string } {
-  if (aqi <= 50) return { fill: '#10b981', stroke: '#34d399', text: 'text-emerald-400', bg: 'bg-emerald-950/40 border-emerald-500/40' };
-  if (aqi <= 100) return { fill: '#f59e0b', stroke: '#fbbf24', text: 'text-amber-400', bg: 'bg-amber-950/40 border-amber-500/40' };
-  if (aqi <= 200) return { fill: '#f97316', stroke: '#fb923c', text: 'text-orange-400', bg: 'bg-orange-950/40 border-orange-500/40' };
-  if (aqi <= 300) return { fill: '#ef4444', stroke: '#f87171', text: 'text-red-400', bg: 'bg-red-950/40 border-red-500/40' };
-  return { fill: '#991b1b', stroke: '#dc2626', text: 'text-rose-400', bg: 'bg-rose-950/60 border-rose-500/60' };
+  if (aqi <= 50) return { fill: '#10b981', stroke: '#10b981', text: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-200' };
+  if (aqi <= 100) return { fill: '#f59e0b', stroke: '#f59e0b', text: 'text-amber-800', bg: 'bg-amber-50 border-amber-200' };
+  if (aqi <= 200) return { fill: '#f97316', stroke: '#f97316', text: 'text-orange-700', bg: 'bg-orange-50 border-orange-200' };
+  if (aqi <= 300) return { fill: '#ef4444', stroke: '#ef4444', text: 'text-rose-700', bg: 'bg-rose-50 border-rose-200' };
+  return { fill: '#881337', stroke: '#881337', text: 'text-rose-900', bg: 'bg-rose-100 border-rose-300' };
 }
 
 // Fixed coordinates on an 800x420 urban canvas grid
@@ -36,22 +36,23 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
     <div
       role="region"
       aria-label="Urban Air Quality Telemetry Heatmap"
-      className="bg-[#161b22] rounded border border-[#30363d] p-3 flex flex-col gap-2.5"
+      className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-6 shadow-xs flex flex-col gap-4 text-slate-800"
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1.5 border-b border-[#21262d] pb-2">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
         <div>
-          <h2 className="text-xs font-bold text-white uppercase tracking-wide flex items-center gap-1.5">
-            <span aria-hidden="true">🗺️</span> Urban Sector AQI Heatmap
+          <h2 className="text-sm font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <span>🗺️</span>
+            <span>Urban Sector AQI Heatmap</span>
           </h2>
-          <p className="text-[11px] text-slate-400">
+          <p className="text-xs text-slate-500 mt-0.5">
             Interactive sector exposure map. High thermal inversions and industrial plumes intensify toward northeast.
           </p>
         </div>
-        <div className="flex items-center gap-2 text-[10px] font-medium text-slate-300">
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded bg-emerald-500" aria-hidden="true" /> Good</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded bg-amber-500" aria-hidden="true" /> Moderate</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded bg-orange-500" aria-hidden="true" /> Poor</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded bg-red-500" aria-hidden="true" /> Hazardous</span>
+        <div className="flex items-center gap-3 text-xs font-medium text-slate-600">
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500" aria-hidden="true" /> Good</span>
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-amber-400" aria-hidden="true" /> Moderate</span>
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-orange-400" aria-hidden="true" /> Poor</span>
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-rose-500" aria-hidden="true" /> Hazardous</span>
         </div>
       </div>
 
@@ -71,7 +72,7 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
       </div>
 
       {/* Native SVG Heatmap Visual Canvas */}
-      <div className="relative w-full aspect-[21/9] min-h-[220px] max-h-[300px] bg-[#0d1117] rounded border border-[#30363d] p-1 overflow-hidden flex items-center justify-center">
+      <div className="relative w-full aspect-[21/9] min-h-[240px] max-h-[320px] bg-slate-50/70 rounded-xl border border-slate-200/80 p-2 overflow-hidden flex items-center justify-center">
         <svg
           viewBox="0 0 800 420"
           className="w-full h-full"
@@ -79,15 +80,15 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
         >
           <defs>
             <radialGradient id="smogGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#ef4444" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#020817" stopOpacity="0" />
+              <stop offset="0%" stopColor="#ef4444" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#f8fafc" stopOpacity="0" />
             </radialGradient>
             <radialGradient id="cleanGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#10b981" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#020817" stopOpacity="0" />
+              <stop offset="0%" stopColor="#10b981" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#f8fafc" stopOpacity="0" />
             </radialGradient>
             <pattern id="urbanGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(51, 65, 85, 0.25)" strokeWidth="0.8" />
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(203, 213, 225, 0.45)" strokeWidth="0.8" />
             </pattern>
           </defs>
 
@@ -95,11 +96,11 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
           <rect width="800" height="420" fill="url(#urbanGrid)" />
 
           {/* Connecting Transit Corridors */}
-          <line x1="190" y1="120" x2="400" y2="210" stroke="#334155" strokeWidth="2" strokeDasharray="4 4" />
-          <line x1="400" y1="210" x2="640" y2="130" stroke="#334155" strokeWidth="2" strokeDasharray="4 4" />
-          <line x1="210" y1="310" x2="400" y2="210" stroke="#334155" strokeWidth="2" strokeDasharray="4 4" />
-          <line x1="400" y1="210" x2="580" y2="300" stroke="#334155" strokeWidth="2" strokeDasharray="4 4" />
-          <line x1="190" y1="120" x2="210" y2="310" stroke="#10b981" strokeWidth="2" strokeOpacity="0.5" />
+          <line x1="190" y1="120" x2="400" y2="210" stroke="#cbd5e1" strokeWidth="2.5" strokeDasharray="4 4" />
+          <line x1="400" y1="210" x2="640" y2="130" stroke="#cbd5e1" strokeWidth="2.5" strokeDasharray="4 4" />
+          <line x1="210" y1="310" x2="400" y2="210" stroke="#cbd5e1" strokeWidth="2.5" strokeDasharray="4 4" />
+          <line x1="400" y1="210" x2="580" y2="300" stroke="#cbd5e1" strokeWidth="2.5" strokeDasharray="4 4" />
+          <line x1="190" y1="120" x2="210" y2="310" stroke="#10b981" strokeWidth="2.5" strokeOpacity="0.5" />
 
           {/* Render Sector Blobs */}
           {sectors.map((sector: SectorData) => {
@@ -113,7 +114,7 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
                 role="button"
                 tabIndex={0}
                 aria-label={`Select monitoring sector ${sector.sectorName}, AQI ${sector.aqi}, Status ${sector.category}`}
-                className="cursor-pointer transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-sky-400"
+                className="cursor-pointer transition-transform duration-200 hover:scale-105 focus:outline-none"
                 onClick={() => setSelectedSectorId(sector.sectorId)}
                 onKeyDown={e => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -128,7 +129,7 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
                   cy={coords.cy}
                   r={coords.r + 20}
                   fill={colors.fill}
-                  fillOpacity={isSelected ? 0.28 : 0.12}
+                  fillOpacity={isSelected ? 0.3 : 0.12}
                 />
 
                 {/* Main Sector Node */}
@@ -136,19 +137,19 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
                   cx={coords.cx}
                   cy={coords.cy}
                   r={coords.r}
-                  fill="#0f172a"
-                  stroke={isSelected ? '#38bdf8' : colors.stroke}
+                  fill="#ffffff"
+                  stroke={isSelected ? '#7c3aed' : colors.stroke}
                   strokeWidth={isSelected ? 3.5 : 2}
-                  strokeDasharray={isSelected ? 'none' : 'none'}
+                  filter="drop-shadow(0 2px 4px rgba(0,0,0,0.06))"
                 />
 
                 {/* AQI Value Metric */}
                 <text
                   x={coords.cx}
-                  y={coords.cy - 10}
+                  y={coords.cy - 8}
                   textAnchor="middle"
-                  fill="#ffffff"
-                  fontSize="20"
+                  fill="#0f172a"
+                  fontSize="22"
                   fontWeight="900"
                 >
                   {sector.aqi}
@@ -157,7 +158,7 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
                 {/* Category Subtext */}
                 <text
                   x={coords.cx}
-                  y={coords.cy + 10}
+                  y={coords.cy + 12}
                   textAnchor="middle"
                   fill={colors.stroke}
                   fontSize="11"
@@ -171,7 +172,7 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
                   x={coords.cx}
                   y={coords.cy + coords.r + 18}
                   textAnchor="middle"
-                  fill="#cbd5e1"
+                  fill="#334155"
                   fontSize="12"
                   fontWeight="600"
                 >
@@ -185,8 +186,8 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
                     cy={coords.cy}
                     r={coords.r + 8}
                     fill="none"
-                    stroke="#38bdf8"
-                    strokeWidth="2"
+                    stroke="#7c3aed"
+                    strokeWidth="2.5"
                     strokeDasharray="5 3"
                   />
                 )}
@@ -197,7 +198,7 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
       </div>
 
       {/* Sector Quick-Select Pills */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-1">
         {sectors.map((s: SectorData) => {
           const isSelected = s.sectorId === selectedSectorId;
           const colors = getCategoryColor(s.aqi);
@@ -207,16 +208,16 @@ export const AQIHeatmap = memo(function AQIHeatmap() {
               key={s.sectorId}
               type="button"
               onClick={() => setSelectedSectorId(s.sectorId)}
-              className={`p-2 rounded border text-left transition-colors focus:outline-none focus:ring-1 focus:ring-emerald-500
-                ${isSelected ? 'bg-[#21262d] border-sky-400 ring-1 ring-sky-400' : 'bg-[#0d1117] border-[#30363d] hover:bg-[#161b22]'}`}
+              className={`p-3 rounded-xl border text-left transition-all focus:outline-none focus:ring-2 focus:ring-violet-400 cursor-pointer shadow-2xs
+                ${isSelected ? 'bg-violet-50/80 border-violet-400 ring-1 ring-violet-400' : 'bg-[#fbfbfe] border-slate-200 hover:bg-white hover:border-slate-300'}`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[11px] font-semibold text-slate-200 truncate">{s.sectorName}</span>
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${colors.bg} ${colors.text}`}>
+                <span className="text-xs font-semibold text-slate-800 truncate pr-1">{s.sectorName}</span>
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${colors.bg} ${colors.text}`}>
                   {s.aqi}
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 font-mono">PM2.5: {s.pm25} µg/m³</p>
+              <p className="text-[11px] text-slate-500 font-mono">PM2.5: {s.pm25} µg/m³</p>
             </button>
           );
         })}

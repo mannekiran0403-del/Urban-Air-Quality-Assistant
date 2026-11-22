@@ -46,15 +46,16 @@ export const SectorInputForm = memo(function SectorInputForm() {
   return (
     <form
       aria-label="Urban Sector & Household Profile Filter"
-      className="bg-[#161b22] rounded border border-[#30363d] p-3 flex flex-col gap-3"
+      className="bg-white rounded-2xl border border-slate-100 p-5 shadow-xs flex flex-col gap-4 text-slate-800"
       onSubmit={e => e.preventDefault()}
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#21262d] pb-2">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
         <div>
-          <h2 className="text-xs font-bold text-white flex items-center gap-1.5 uppercase tracking-wide">
-            <span aria-hidden="true">📍</span> Hyperlocal Sector & Household Profile
+          <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2 tracking-tight">
+            <span>📍</span>
+            <span>Hyperlocal Sector & Household Profile</span>
           </h2>
-          <p className="text-[11px] text-slate-400">
+          <p className="text-xs text-slate-500 mt-0.5">
             Calibrate exposure forecasts for your specific micro-climate zone and household vulnerability.
           </p>
         </div>
@@ -63,11 +64,11 @@ export const SectorInputForm = memo(function SectorInputForm() {
           onClick={handleFetchLiveTelemetry}
           disabled={fetchingLive}
           aria-label="Fetch live satellite and sensor air quality telemetry"
-          className="px-2.5 py-1 rounded text-xs font-medium bg-[#21262d] hover:bg-[#30363d] text-sky-400 border border-[#30363d] transition-colors flex items-center gap-1.5 disabled:opacity-50"
+          className="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-violet-50 hover:bg-violet-100 text-violet-700 border border-violet-200 transition-colors flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-2xs"
         >
           {fetchingLive ? (
             <>
-              <span className="w-2.5 h-2.5 border-2 border-sky-400 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+              <span className="w-3 h-3 border-2 border-violet-600 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
               <span>Querying Open-Meteo...</span>
             </>
           ) : (
@@ -80,16 +81,16 @@ export const SectorInputForm = memo(function SectorInputForm() {
       </div>
 
       {liveSuccess && (
-        <div role="status" className="py-1 px-2.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-[11px] flex items-center gap-2">
-          <span>●</span>
+        <div role="status" className="py-2 px-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-600" />
           <span>{liveSuccess}</span>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
         {/* Sector Selector */}
-        <fieldset className="border border-[#30363d] rounded p-2 bg-[#0d1117]">
-          <legend className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 px-1">Urban Sector</legend>
+        <fieldset className="border border-slate-200 rounded-xl p-3 bg-[#fbfbfe]">
+          <legend className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 px-1">Urban Sector</legend>
           <label htmlFor="sector-select" className="sr-only">
             Monitoring Location
           </label>
@@ -97,7 +98,7 @@ export const SectorInputForm = memo(function SectorInputForm() {
             id="sector-select"
             value={selectedSectorId}
             onChange={e => setSelectedSectorId(e.target.value)}
-            className="w-full bg-[#161b22] border border-[#30363d] rounded px-2 py-1 text-xs font-medium text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-1 focus:ring-violet-500"
           >
             {sectors.map(sector => (
               <option key={sector.sectorId} value={sector.sectorId}>
@@ -108,8 +109,8 @@ export const SectorInputForm = memo(function SectorInputForm() {
         </fieldset>
 
         {/* Persona Selector */}
-        <fieldset className="border border-[#30363d] rounded p-2 bg-[#0d1117]">
-          <legend className="text-[10px] font-bold uppercase tracking-wider text-sky-400 px-1">User Persona</legend>
+        <fieldset className="border border-slate-200 rounded-xl p-3 bg-[#fbfbfe]">
+          <legend className="text-[10px] font-bold uppercase tracking-wider text-violet-700 px-1">User Persona</legend>
           <label htmlFor="persona-select" className="sr-only">
             Lifestyle & Responsibility
           </label>
@@ -117,7 +118,7 @@ export const SectorInputForm = memo(function SectorInputForm() {
             id="persona-select"
             value={userProfile.persona}
             onChange={e => updateUserProfile({ persona: e.target.value as PersonaType })}
-            className="w-full bg-[#161b22] border border-[#30363d] rounded px-2 py-1 text-xs font-medium text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-1 focus:ring-violet-500"
           >
             <option value="vulnerable-family">Vulnerable Family (Toddlers / Asthmatics / Elderly)</option>
             <option value="commuter">Urban Daily Commuter (Transit / Exposure Route)</option>
@@ -126,11 +127,11 @@ export const SectorInputForm = memo(function SectorInputForm() {
         </fieldset>
 
         {/* Household Members */}
-        <fieldset className="border border-[#30363d] rounded p-2 bg-[#0d1117]">
-          <legend className="text-[10px] font-bold uppercase tracking-wider text-amber-400 px-1">Vulnerable Members</legend>
-          <div className="grid grid-cols-3 gap-1.5">
+        <fieldset className="border border-slate-200 rounded-xl p-3 bg-[#fbfbfe]">
+          <legend className="text-[10px] font-bold uppercase tracking-wider text-amber-700 px-1">Vulnerable Members</legend>
+          <div className="grid grid-cols-3 gap-2">
             <div>
-              <label htmlFor="asthmatics-input" className="block text-[10px] text-slate-400 mb-0.5 font-medium truncate">
+              <label htmlFor="asthmatics-input" className="block text-[10px] text-slate-600 mb-1 font-semibold truncate">
                 Asthmatic Relatives
               </label>
               <input
@@ -147,11 +148,11 @@ export const SectorInputForm = memo(function SectorInputForm() {
                     },
                   })
                 }
-                className="w-full bg-[#161b22] border border-[#30363d] rounded px-1.5 py-0.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-800 font-mono focus:outline-none focus:ring-1 focus:ring-violet-500"
               />
             </div>
             <div>
-              <label htmlFor="toddlers-input" className="block text-[10px] text-slate-400 mb-0.5 font-medium truncate">
+              <label htmlFor="toddlers-input" className="block text-[10px] text-slate-600 mb-1 font-semibold truncate">
                 Toddlers
               </label>
               <input
@@ -168,11 +169,11 @@ export const SectorInputForm = memo(function SectorInputForm() {
                     },
                   })
                 }
-                className="w-full bg-[#161b22] border border-[#30363d] rounded px-1.5 py-0.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-800 font-mono focus:outline-none focus:ring-1 focus:ring-violet-500"
               />
             </div>
             <div>
-              <label htmlFor="elderly-input" className="block text-[10px] text-slate-400 mb-0.5 font-medium truncate">
+              <label htmlFor="elderly-input" className="block text-[10px] text-slate-600 mb-1 font-semibold truncate">
                 Elderly
               </label>
               <input
@@ -189,11 +190,16 @@ export const SectorInputForm = memo(function SectorInputForm() {
                     },
                   })
                 }
-                className="w-full bg-[#161b22] border border-[#30363d] rounded px-1.5 py-0.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-800 font-mono focus:outline-none focus:ring-1 focus:ring-violet-500"
               />
             </div>
           </div>
         </fieldset>
+      </div>
+
+      <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
+        <span>Settings auto-saved to browser local cache</span>
+        <span className="font-semibold text-emerald-700">Zero telemetry leakage</span>
       </div>
     </form>
   );

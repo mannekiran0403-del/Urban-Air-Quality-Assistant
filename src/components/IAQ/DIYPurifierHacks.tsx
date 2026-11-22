@@ -89,32 +89,33 @@ export const DIY_HACKS_DATA: DIYHack[] = [
       'Simple hygrometer ($5)',
     ],
     steps: [
-      'Monitor indoor humidity; winter heating often drops it below 25%.',
-      'Keep indoor RH strictly between 40% and 50%.',
-      'Place water basins near heat registers or run cool-mist humidifier with distilled water.',
+      'Monitor indoor relative humidity; aim for 40% to 50%.',
+      'Position ceramic water dishes on safe heating radiators to gently humidify ambient air.',
+      'Avoid ultrasonic humidifiers using unfiltered tap water which releases fine mineral dust.',
     ],
     scientificMechanism:
-      'Dry airway epithelium (<30% RH) paralyzes respiratory cilia. 40-50% RH maintains the mucus barrier, causing inhaled particles to be trapped and cleared before reaching deep bronchioles.',
+      'Relative humidity between 40-50% preserves nasal and bronchial mucus hydration, enabling epithelial cilia to trap and clear inhaled PM2.5 before reaching deep pulmonary alveoli.',
   },
   {
-    id: 'hack-botanical-scrubbers',
-    title: 'Botanical Night-Time VOC & CO2 Bio-Filter (Gaseous Defense Only)',
-    category: 'plants',
+    id: 'hack-sealing-tape',
+    title: 'Draft-Seal Magnetic Window Film',
+    category: 'sealing',
     difficulty: 'Easy',
-    estimatedCostUSD: 12,
-    commercialAlternativeCostUSD: 90,
-    pm25ReductionPercent: 0,
+    estimatedCostUSD: 18,
+    commercialAlternativeCostUSD: 240,
+    pm25ReductionPercent: 60,
     materialsNeeded: [
-      'Sansevieria trifasciata (Snake Plant / Mother-in-Law’s Tongue)',
-      'Spathiphyllum (Peace Lily)',
+      'Magnetic self-adhesive weather stripping tape',
+      'Clear shrink-wrap window insulator film',
     ],
     steps: [
-      'Place 2-3 mature snake plants per bedroom to absorb nocturnal gaseous VOCs.',
-      'Wipe plant leaf surfaces once a week with a damp cloth to remove settled soot and maintain stomata conductance.',
-      'Always operate an active HEPA / MERV-13 box fan filter in tandem for fine particulate matter (PM2.5) defense.',
+      'Clean window perimeters with rubbing alcohol.',
+      'Apply magnetic weatherstripping tape along window frame perimeter.',
+      'Cut film with 1-inch overlap and snap magnetic counter-strip into place.',
+      'Use hairdryer on low heat to shrink film taut and eliminate micro-leaks.',
     ],
     scientificMechanism:
-      'Employs Crassulacean Acid Metabolism (CAM) to absorb carbon dioxide and release oxygen at night, mitigating gaseous VOC buildup. CRITICAL PUBLIC HEALTH NOTE: Ordinary houseplants do NOT capture fine particulate matter (PM2.5); mechanical filtration remains the mandatory clinical defense during winter smog.',
+      'Cuts particulate air exchange infiltration rate (ACH_natural) from 1.2/hr to under 0.3/hr, insulating the interior from cold ground-level winter smog plumes.',
   },
 ];
 
@@ -131,29 +132,30 @@ export const DIYPurifierHacks = memo(function DIYPurifierHacks() {
   return (
     <section
       aria-label="Indoor Air Quality & Low-Cost DIY Smog Hacks"
-      className="bg-[#161b22] rounded border border-[#30363d] p-3.5 flex flex-col gap-3.5"
+      className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-6 shadow-xs flex flex-col gap-4 text-slate-800"
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#30363d] pb-2.5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
         <div>
-          <h2 className="text-sm font-semibold text-slate-100 flex items-center gap-1.5">
-            <span aria-hidden="true">🛠️</span> Low-Cost IAQ Hacks & DIY Purifier Blueprints
+          <h2 className="text-sm font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <span>🛠️</span>
+            <span>Low-Cost IAQ Hacks & DIY Purifier Blueprints</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Affordable, peer-reviewed engineering hacks to achieve commercial-grade clean air at 10-20% of retail price.
           </p>
         </div>
 
         {/* Category Pills */}
-        <div className="flex gap-1 overflow-x-auto pb-0.5">
+        <div className="flex gap-1.5 overflow-x-auto pb-0.5">
           {['all', 'purifier', 'ventilation', 'humidity', 'plants'].map(cat => (
             <button
               key={cat}
               type="button"
               onClick={() => setActiveCategory(cat)}
-              className={`px-2 py-0.5 rounded text-xs font-semibold capitalize transition-colors ${
+              className={`px-3 py-1 rounded-full text-xs font-bold capitalize transition-all cursor-pointer ${
                 activeCategory === cat
-                  ? 'bg-[#238636] text-white border border-[#2ea043]'
-                  : 'bg-[#21262d] text-slate-300 hover:bg-[#30363d] border border-[#30363d]'
+                  ? 'bg-violet-700 text-white shadow-2xs'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
               {cat}
@@ -162,9 +164,9 @@ export const DIYPurifierHacks = memo(function DIYPurifierHacks() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Hack List Column */}
-        <div className="space-y-2 max-h-[460px] overflow-y-auto pr-1">
+        <div className="space-y-2.5 max-h-[480px] overflow-y-auto pr-1">
           {filteredHacks.map(hack => {
             const isSelected = hack.id === selectedHackId;
             const savings = hack.commercialAlternativeCostUSD - hack.estimatedCostUSD;
@@ -174,21 +176,21 @@ export const DIYPurifierHacks = memo(function DIYPurifierHacks() {
                 key={hack.id}
                 type="button"
                 onClick={() => setSelectedHackId(hack.id)}
-                className={`w-full text-left p-2.5 rounded border transition-colors ${
+                className={`w-full text-left p-3.5 rounded-xl border transition-all cursor-pointer ${
                   isSelected
-                    ? 'bg-[#21262d] border-emerald-600 ring-1 ring-emerald-600/40'
-                    : 'bg-[#0d1117] border-[#30363d] hover:bg-[#161b22]'
+                    ? 'bg-violet-50/50 border-violet-400 ring-1 ring-violet-300 shadow-2xs'
+                    : 'bg-[#fbfbfe] hover:bg-white border-slate-200/80 hover:border-slate-300'
                 }`}
               >
-                <div className="flex items-center justify-between gap-2 mb-1">
-                  <h3 className="font-semibold text-slate-100 text-xs truncate">{hack.title}</h3>
-                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[#062d1f] text-emerald-400 border border-emerald-800 shrink-0">
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <h3 className="font-bold text-slate-900 text-xs sm:text-[13px] truncate">{hack.title}</h3>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
                     -{hack.pm25ReductionPercent}% PM2.5
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1.5 font-mono">
-                  <span>Cost: <strong className="text-slate-200">${hack.estimatedCostUSD}</strong></span>
-                  <span className="text-emerald-400 font-medium">Save ${savings}</span>
+                <div className="flex items-center justify-between text-xs text-slate-500 mt-2 font-mono">
+                  <span>Cost: <strong className="text-slate-900">${hack.estimatedCostUSD}</strong></span>
+                  <span className="text-emerald-700 font-bold">Save ${savings}</span>
                 </div>
               </button>
             );
@@ -196,29 +198,29 @@ export const DIYPurifierHacks = memo(function DIYPurifierHacks() {
         </div>
 
         {/* Selected Blueprint Detail Column */}
-        <div className="lg:col-span-2 bg-[#0d1117] rounded border border-[#30363d] p-3 flex flex-col gap-3 max-h-[460px] overflow-y-auto">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#30363d] pb-2.5">
+        <div className="lg:col-span-2 bg-[#fbfbfe] rounded-2xl border border-slate-200/80 p-5 flex flex-col gap-4 max-h-[480px] overflow-y-auto shadow-2xs">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
             <div>
-              <span className="text-[10px] font-semibold uppercase text-emerald-400 tracking-wider">
+              <span className="text-[10px] font-bold uppercase text-violet-700 tracking-wider">
                 Category: {selectedHack.category.toUpperCase()} • Difficulty: {selectedHack.difficulty}
               </span>
-              <h3 className="text-sm font-bold text-slate-100 mt-0.5">{selectedHack.title}</h3>
+              <h3 className="text-sm sm:text-base font-extrabold text-slate-900 mt-0.5">{selectedHack.title}</h3>
             </div>
             <div className="text-left sm:text-right">
-              <span className="text-[10px] text-slate-400 uppercase font-medium">Total DIY Investment</span>
-              <p className="text-base font-bold text-emerald-400">${selectedHack.estimatedCostUSD}</p>
+              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total DIY Investment</span>
+              <p className="text-lg font-extrabold text-emerald-700">${selectedHack.estimatedCostUSD}</p>
             </div>
           </div>
 
           {/* Materials List */}
           <div>
-            <h4 className="text-[10px] font-semibold text-sky-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+            <h4 className="text-[11px] font-bold text-violet-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
               <span aria-hidden="true">📦</span> Required Materials & Hardware
             </h4>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-300">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
               {selectedHack.materialsNeeded.map((mat, i) => (
-                <li key={i} className="flex items-center gap-2 bg-[#161b22] p-1.5 rounded border border-[#30363d]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" aria-hidden="true" />
+                <li key={i} className="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-200/80 shadow-2xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" aria-hidden="true" />
                   <span className="truncate">{mat}</span>
                 </li>
               ))}
@@ -227,24 +229,24 @@ export const DIYPurifierHacks = memo(function DIYPurifierHacks() {
 
           {/* Step-by-Step Instructions */}
           <div>
-            <h4 className="text-[10px] font-semibold text-sky-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+            <h4 className="text-[11px] font-bold text-violet-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
               <span aria-hidden="true">📋</span> Step-by-Step Assembly Instructions
             </h4>
-            <ol className="space-y-1.5 text-xs text-slate-300 list-decimal list-inside bg-[#161b22] p-2.5 rounded border border-[#30363d]">
+            <ol className="space-y-2 text-xs text-slate-700 list-decimal list-inside bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-2xs leading-relaxed">
               {selectedHack.steps.map((step, i) => (
-                <li key={i} className="leading-relaxed">
-                  <span className="text-slate-200">{step}</span>
+                <li key={i}>
+                  <span className="text-slate-800 font-medium">{step}</span>
                 </li>
               ))}
             </ol>
           </div>
 
           {/* Scientific Mechanism Callout */}
-          <div className="bg-[#06241a] border border-emerald-900/60 rounded p-2.5">
-            <h4 className="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider flex items-center gap-1 mb-1">
+          <div className="bg-emerald-50/70 border border-emerald-100 rounded-xl p-3.5 shadow-2xs">
+            <h4 className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider flex items-center gap-1.5 mb-1">
               <span aria-hidden="true">🔬</span> Atmospheric & Aerodynamic Mechanism
             </h4>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-700 leading-relaxed">
               {selectedHack.scientificMechanism}
             </p>
           </div>

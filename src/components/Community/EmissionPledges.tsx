@@ -88,165 +88,158 @@ export const EmissionPledges = memo(function EmissionPledges() {
       verified: true,
     };
 
-    setPledges(prev => {
-      const next = [newPledge, ...prev];
-      storageService.savePledges(next);
-      return next;
-    });
-
+    const next = [newPledge, ...pledges];
+    setPledges(next);
+    storageService.savePledges(next);
     setTitle('');
     setPledgerName('');
-  }, [title, pledgerName, category, selectedSectorId, estimatedSavings, participantsCount]);
+  }, [title, pledgerName, category, selectedSectorId, estimatedSavings, participantsCount, pledges]);
 
   return (
     <section
-      aria-label="Community Emission Pledges & Collective Smog Defense"
-      className="bg-[#161b22] rounded border border-[#30363d] p-3.5 flex flex-col gap-3.5"
+      aria-label="Community Emission Pledges and Collective Smog Reductions"
+      className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-6 shadow-xs flex flex-col gap-4 text-slate-800"
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#30363d] pb-2.5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
         <div>
-          <h2 className="text-sm font-semibold text-slate-100 flex items-center gap-1.5">
-            <span aria-hidden="true">🤝</span> Collective Smog Defense & Neighborhood Emission Pledges
+          <h2 className="text-sm font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <span>🤝</span>
+            <span>Neighborhood Emission Pledges & Collective Smog Defense</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Track micro-action pledges preventing toxic particulate release across urban blocks during winter inversions.
+          <p className="text-xs text-slate-500 mt-0.5">
+            Log neighborhood emission-reduction commitments and quantify collective reduction of ground-level toxic smoke.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="px-2.5 py-1 rounded text-xs font-bold bg-[#062d1f] text-emerald-400 border border-emerald-800">
-            {totalKgPM25Saved} kg PM2.5 Avoided
-          </span>
-          <span className="px-2.5 py-1 rounded text-xs font-bold bg-[#0c2135] text-sky-400 border border-sky-800">
-            {totalParticipants} Pledgers
-          </span>
+        {/* Global Impact Counter */}
+        <div className="flex gap-2 shrink-0">
+          <div className="bg-emerald-50 rounded-xl border border-emerald-200 px-3 py-1.5 text-right">
+            <span className="text-[10px] text-emerald-800 font-bold uppercase tracking-wider block">Total PM2.5 Prevented</span>
+            <span className="text-sm font-extrabold text-emerald-700">{totalKgPM25Saved} kg</span>
+          </div>
+          <div className="bg-violet-50 rounded-xl border border-violet-200 px-3 py-1.5 text-right">
+            <span className="text-[10px] text-violet-800 font-bold uppercase tracking-wider block">Active Citizens</span>
+            <span className="text-sm font-extrabold text-violet-700">{totalParticipants}</span>
+          </div>
         </div>
       </div>
 
-      {/* New Pledge Form */}
-      <form
-        aria-label="Register Neighborhood Smog Reduction Pledge"
-        onSubmit={handleAddPledge}
-        className="bg-[#0d1117] p-3 rounded border border-[#30363d] flex flex-col gap-2.5"
-      >
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
-          + Launch a Neighborhood Smog Defense Pledge
-        </h3>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        {/* Pledge Creation Form */}
+        <form
+          onSubmit={handleAddPledge}
+          className="bg-[#fbfbfe] rounded-2xl border border-slate-200/80 p-4 sm:p-5 flex flex-col gap-3 shadow-2xs"
+        >
+          <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+            Register Collective Commitment
+          </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
           <div>
-            <label htmlFor="pledge-title" className="block text-[10px] text-slate-400 font-medium mb-1 uppercase tracking-wider">
-              Pledge Campaign Name
+            <label htmlFor="pledge-title-input" className="block text-[11px] font-bold text-slate-600 mb-1">
+              Commitment Title
             </label>
             <input
-              id="pledge-title"
+              id="pledge-title-input"
               type="text"
-              required
-              placeholder="e.g., Sector 4 Shared Morning School Van"
+              placeholder="e.g. Shared Morning School Van Pool"
               value={title}
               onChange={e => setTitle(e.target.value)}
-              className="w-full bg-[#161b22] border border-[#30363d] rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-medium placeholder-slate-600"
+              required
+              className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-violet-500"
             />
           </div>
 
           <div>
-            <label htmlFor="pledger-name" className="block text-[10px] text-slate-400 font-medium mb-1 uppercase tracking-wider">
-              Organizer / RWA Group
+            <label htmlFor="pledge-org-input" className="block text-[11px] font-bold text-slate-600 mb-1">
+              Pledging Group / Neighborhood RWA
             </label>
             <input
-              id="pledger-name"
+              id="pledge-org-input"
               type="text"
-              required
-              placeholder="e.g., Green Park Welfare Association"
+              placeholder="e.g. Green Park Welfare Association"
               value={pledgerName}
               onChange={e => setPledgerName(e.target.value)}
-              className="w-full bg-[#161b22] border border-[#30363d] rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-medium placeholder-slate-600"
+              required
+              className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-violet-500"
             />
           </div>
 
-          <div>
-            <label htmlFor="pledge-category" className="block text-[10px] text-slate-400 font-medium mb-1 uppercase tracking-wider">
-              Mitigation Category
-            </label>
-            <select
-              id="pledge-category"
-              value={category}
-              onChange={e => setCategory(e.target.value as CommunityPledge['category'])}
-              className="w-full bg-[#161b22] border border-[#30363d] rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-medium"
-            >
-              <option value="carpool">Carpool Coordination (0.42 kg/commuter)</option>
-              <option value="burn-ban">Open-Burn Vigilance (2.8 kg/block)</option>
-              <option value="boiler-check">Boiler Efficiency (1.15 kg/unit)</option>
-              <option value="green-buffer">Canopy Buffer (0.75 kg/plot)</option>
-              <option value="elderly-check">Vulnerable Air Check (0.20 kg)</option>
-            </select>
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label htmlFor="pledge-category-select" className="block text-[11px] font-bold text-slate-600 mb-1">
+                Category
+              </label>
+              <select
+                id="pledge-category-select"
+                value={category}
+                onChange={e => setCategory(e.target.value as CommunityPledge['category'])}
+                className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-violet-500"
+              >
+                <option value="carpool">Carpool Cluster</option>
+                <option value="burn-ban">Zero-Burn Watch</option>
+                <option value="boiler-check">Boiler Tune-Up</option>
+                <option value="green-buffer">Green Planting</option>
+                <option value="elderly-check">Vulnerable Care</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="pledge-participants-input" className="block text-[11px] font-bold text-slate-600 mb-1">
+                Participants
+              </label>
+              <input
+                id="pledge-participants-input"
+                type="number"
+                min={1}
+                max={500}
+                value={participantsCount}
+                onChange={e => setParticipantsCount(Math.max(1, parseInt(e.target.value, 10) || 1))}
+                className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-mono focus:outline-none focus:ring-1 focus:ring-violet-500"
+              />
+            </div>
           </div>
 
-          <div>
-            <label htmlFor="pledge-count" className="block text-[10px] text-slate-400 font-medium mb-1 uppercase tracking-wider">
-              Participating Neighbors
-            </label>
-            <input
-              id="pledge-count"
-              type="number"
-              min={1}
-              max={500}
-              value={participantsCount}
-              onChange={e => setParticipantsCount(Math.max(1, parseInt(e.target.value, 10) || 1))}
-              className="w-full bg-[#161b22] border border-[#30363d] rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-mono"
-            />
+          {/* Calibrated Impact Preview */}
+          <div className="p-3 rounded-xl bg-emerald-50/70 border border-emerald-100 flex items-center justify-between">
+            <span className="text-[11px] text-emerald-900 font-medium">Estimated PM2.5 Prevented:</span>
+            <span className="text-xs font-extrabold text-emerald-700">~{estimatedSavings} kg/mo</span>
           </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-1 border-t border-[#21262d]">
-          <p className="text-xs text-slate-300">
-            Projected Impact: <strong className="text-emerald-400 font-bold">{estimatedSavings} kg PM2.5</strong> prevented from ground-level air.
-          </p>
 
           <button
             type="submit"
-            className="px-3 py-1.5 rounded text-xs font-semibold bg-[#238636] hover:bg-[#2ea043] text-white border border-[#2ea043] transition-colors"
+            className="w-full py-2.5 rounded-xl bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold transition-all shadow-2xs cursor-pointer"
           >
             Register Collective Pledge
           </button>
-        </div>
-      </form>
+        </form>
 
-      {/* Pledges Feed */}
-      <div className="space-y-2">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-          Active Community Pledges ({pledges.length})
-        </h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-          {pledges.map(pledge => {
-            const sector = sectors.find(s => s.sectorId === pledge.sectorId);
-
+        {/* Existing Pledges Feed */}
+        <div className="lg:col-span-2 space-y-2.5 max-h-[480px] overflow-y-auto pr-1">
+          {pledges.map(p => {
+            const sector = sectors.find(s => s.sectorId === p.sectorId);
             return (
               <div
-                key={pledge.id}
-                role="article"
-                aria-label={`${pledge.title} pledge card`}
-                className="bg-[#0d1117] rounded border border-[#30363d] p-3 flex flex-col justify-between gap-2.5"
+                key={p.id}
+                className="bg-[#fbfbfe] hover:bg-white rounded-xl border border-slate-200/80 p-4 transition-all shadow-2xs"
               >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[#21262d] text-sky-400 border border-[#30363d] capitalize">
-                      {pledge.category.replace('-', ' ')}
-                    </span>
-                    <span className="text-[10px] font-bold text-emerald-400">
-                      ✓ Verified RWA
-                    </span>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base" aria-hidden="true">🌱</span>
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-sm">{p.title}</h4>
+                      <p className="text-xs text-slate-500">
+                        By <strong className="text-slate-800 font-semibold">{p.pledgerName}</strong> • {sector?.sectorName ?? p.sectorId}
+                      </p>
+                    </div>
                   </div>
-                  <h4 className="font-semibold text-slate-100 text-xs mt-1">{pledge.title}</h4>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
-                    {pledge.pledgerName} • {sector?.sectorName ?? pledge.sectorId}
-                  </p>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+                    Verified Action
+                  </span>
                 </div>
 
-                <div className="pt-2 border-t border-[#21262d] flex items-center justify-between text-xs font-mono">
-                  <span className="text-slate-400">{pledge.participantsCount} households</span>
-                  <span className="font-bold text-emerald-400">-{pledge.emissionSavedKgPM25} kg PM2.5</span>
+                <div className="flex items-center justify-between pt-2 border-t border-slate-200/60 text-xs font-mono text-slate-500">
+                  <span>{p.participantsCount} households committed</span>
+                  <span className="text-emerald-700 font-bold">-{p.emissionSavedKgPM25} kg PM2.5 saved</span>
                 </div>
               </div>
             );

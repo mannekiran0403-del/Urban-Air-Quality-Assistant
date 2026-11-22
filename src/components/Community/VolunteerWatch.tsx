@@ -89,78 +89,72 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
       id: `inc-${Date.now()}`,
       sectorId: selectedSectorId,
       type,
-      severity,
       description: description.trim(),
+      severity,
       reportedAt: Date.now(),
-      status: 'Reported',
+      status: 'Dispatched',
     };
 
-    setIncidents(prev => {
-      const next = [newIncident, ...prev];
-      storageService.saveIncidents(next);
-      return next;
-    });
-
+    const next = [newIncident, ...incidents];
+    setIncidents(next);
+    storageService.saveIncidents(next);
     setDescription('');
-  }, [type, severity, description, selectedSectorId]);
+  }, [description, selectedSectorId, type, severity, incidents]);
 
-  const toggleResidentStatus = useCallback((residentId: string) => {
+  const toggleResidentCheckin = useCallback((resId: string) => {
     setResidents(prev =>
-      prev.map(r => {
-        if (r.id === residentId) {
-          const nextStatus: VulnerableResident['assistanceStatus'] =
-            r.assistanceStatus === 'Pending Patrol'
-              ? 'Checked-In'
-              : r.assistanceStatus === 'Checked-In'
-              ? 'Filter Aid Delivered'
-              : 'Checked-In';
-          return { ...r, assistanceStatus: nextStatus };
-        }
-        return r;
-      })
+      prev.map(r =>
+        r.id === resId
+          ? {
+              ...r,
+              assistanceStatus:
+                r.assistanceStatus === 'Checked-In' ? 'Pending Patrol' : 'Checked-In',
+            }
+          : r
+      )
     );
   }, []);
 
   return (
     <section
-      aria-label="Neighborhood Volunteer Watch & Incident Logger"
-      className="bg-[#161b22] rounded border border-[#30363d] p-3.5 flex flex-col gap-3.5"
+      aria-label="Citizen Vigilance & Vulnerable Resident Support"
+      className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-6 shadow-xs flex flex-col gap-4 text-slate-800"
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#30363d] pb-2.5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
         <div>
-          <h2 className="text-sm font-semibold text-slate-100 flex items-center gap-1.5">
-            <span aria-hidden="true">🚨</span> Volunteer Anti-Burn Patrol & Smoke Incident Desk
+          <h2 className="text-sm font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <span>🛡️</span>
+            <span>Citizen Vigilance: Volunteer Anti-Burn Patrol & Vulnerable Check-Ins</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Community-driven rapid response dispatch preventing illegal point-source emissions in inversion pockets.
+          <p className="text-xs text-slate-500 mt-0.5">
+            Empower neighborhood volunteers to detect illegal toxic combustion hotspots and deliver clean-air assistance to high-risk residents.
           </p>
         </div>
 
-        <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-[#2e1d08] text-amber-400 border border-amber-800 shrink-0">
-          Civic Rapid Response Active
+        <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-violet-50 text-violet-700 border border-violet-200 shrink-0">
+          Grassroots Smog Defense
         </span>
       </div>
 
-      {/* Incident Log Form */}
+      {/* Incident Reporting Form */}
       <form
-        aria-label="Report Illegal Burning or Smog Hotspot"
         onSubmit={handleReport}
-        className="bg-[#0d1117] p-3 rounded border border-[#30363d] flex flex-col gap-2.5"
+        className="bg-[#fbfbfe] rounded-2xl border border-slate-200/80 p-4 sm:p-5 flex flex-col gap-3 shadow-2xs"
       >
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-red-400">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-rose-700">
           + Report Unlawful Emission Hotspot
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label htmlFor="incident-type" className="block text-[10px] text-slate-400 font-medium mb-1 uppercase tracking-wider">
+            <label htmlFor="incident-type" className="block text-[11px] font-bold text-slate-600 mb-1">
               Violation Type
             </label>
             <select
               id="incident-type"
               value={type}
               onChange={e => setType(e.target.value as SmogIncidentReport['type'])}
-              className="w-full bg-[#161b22] border border-[#30363d] rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-red-500 font-medium"
+              className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-rose-500 font-medium"
             >
               <option value="open-burning">Open Biomass / Leaf / Trash Burning</option>
               <option value="industrial-flaring">Unfiltered Industrial Flaring</option>
@@ -170,14 +164,14 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
           </div>
 
           <div>
-            <label htmlFor="incident-severity" className="block text-[10px] text-slate-400 font-medium mb-1 uppercase tracking-wider">
+            <label htmlFor="incident-severity" className="block text-[11px] font-bold text-slate-600 mb-1">
               Urgency Severity
             </label>
             <select
               id="incident-severity"
               value={severity}
               onChange={e => setSeverity(e.target.value as SmogIncidentReport['severity'])}
-              className="w-full bg-[#161b22] border border-[#30363d] rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-red-500 font-medium"
+              className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-rose-500 font-medium"
             >
               <option value="Moderate">Moderate (Localized Smudge)</option>
               <option value="High">High (Neighborhood Plume)</option>
@@ -186,7 +180,7 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
           </div>
 
           <div>
-            <label htmlFor="incident-desc" className="block text-[10px] text-slate-400 font-medium mb-1 uppercase tracking-wider">
+            <label htmlFor="incident-desc" className="block text-[11px] font-bold text-slate-600 mb-1">
               Location Landmark & Notes
             </label>
             <input
@@ -196,7 +190,7 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
               placeholder="e.g., Behind Ward 4 playground alley"
               value={description}
               onChange={e => setDescription(e.target.value)}
-              className="w-full bg-[#161b22] border border-[#30363d] rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-red-500 font-medium placeholder-slate-600"
+              className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-rose-500 font-medium placeholder-slate-400"
             />
           </div>
         </div>
@@ -204,7 +198,7 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
         <div className="flex justify-end pt-1">
           <button
             type="submit"
-            className="px-3 py-1.5 rounded text-xs font-semibold bg-[#b91c1c] hover:bg-[#dc2626] text-white border border-[#dc2626] transition-colors"
+            className="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white transition-all shadow-2xs cursor-pointer"
           >
             Dispatch Neighborhood Patrol
           </button>
@@ -212,12 +206,12 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
       </form>
 
       {/* Incidents Feed */}
-      <div className="space-y-2">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+      <div className="space-y-2.5">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
           Live Field Incident Log ({incidents.length})
         </h3>
 
-        <div className="space-y-1.5 max-h-[220px] overflow-y-auto pr-1">
+        <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
           {incidents.map(inc => {
             const sec = sectors.find(s => s.sectorId === inc.sectorId);
             const isCritical = inc.severity === 'Critical';
@@ -227,102 +221,77 @@ export const VolunteerWatch = memo(function VolunteerWatch() {
                 key={inc.id}
                 role="article"
                 aria-label={`Incident report ${inc.id}`}
-                className="bg-[#0d1117] rounded border border-[#30363d] p-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2"
+                className="bg-[#fbfbfe] hover:bg-white rounded-xl border border-slate-200/80 p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs"
               >
-                <div className="flex items-start gap-2.5">
-                  <span className="text-base" aria-hidden="true">
+                <div className="flex items-start gap-3">
+                  <span className="text-lg w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-2xs" aria-hidden="true">
                     {inc.type === 'open-burning' ? '🔥' : inc.type === 'heavy-diesel-idling' ? '🚚' : '🏭'}
                   </span>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-slate-100 text-xs">{inc.type.replace('-', ' ').toUpperCase()}</span>
+                      <span className="font-bold text-slate-900 text-xs">{inc.type.replace('-', ' ').toUpperCase()}</span>
                       <span
-                        className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                           isCritical
-                            ? 'bg-[#3b1216] text-red-400 border-red-800'
-                            : 'bg-[#2e1d08] text-amber-400 border-amber-800'
+                            ? 'bg-rose-50 text-rose-700 border-rose-200'
+                            : 'bg-amber-50 text-amber-800 border-amber-200'
                         }`}
                       >
                         {inc.severity}
                       </span>
-                      <span className="text-[11px] text-slate-400">Sector: {sec?.sectorName ?? inc.sectorId}</span>
+                      <span className="text-xs text-slate-500">Sector: {sec?.sectorName ?? inc.sectorId}</span>
                     </div>
-                    <p className="text-xs text-slate-300 mt-0.5">{inc.description}</p>
+                    <p className="text-xs text-slate-600 mt-1">{inc.description}</p>
                   </div>
                 </div>
 
-                <div className="text-right shrink-0 self-end sm:self-center">
-                  <span
-                    className={`inline-block text-[10px] font-semibold px-2 py-0.5 rounded ${
-                      inc.status === 'Resolved'
-                        ? 'bg-[#062d1f] text-emerald-400 border border-emerald-800'
-                        : inc.status === 'Dispatched'
-                        ? 'bg-[#0c2135] text-sky-400 border border-sky-800'
-                        : 'bg-[#2e1d08] text-amber-400 border border-amber-800'
-                    }`}
-                  >
-                    ● {inc.status}
-                  </span>
-                </div>
+                <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-violet-50 text-violet-700 border border-violet-200 shrink-0">
+                  {inc.status}
+                </span>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Vulnerable Resident Check-In & Filter Aid Directory */}
-      <div className="bg-[#0d1117] rounded border border-[#30363d] p-3 flex flex-col gap-2.5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <span className="text-sm" aria-hidden="true">🩺</span>
-            <h3 className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
-              Vulnerable Resident Smog Check-In & Filter Aid Directory
-            </h3>
-          </div>
-          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[#062d1f] text-emerald-400 border border-emerald-800">
-            RWA Civic Action Active
-          </span>
-        </div>
+      {/* Vulnerable Resident Patrol Support Grid */}
+      <div className="space-y-2.5 pt-2 border-t border-slate-100">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+          Vulnerable Resident Welfare Care Patrol
+        </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-          {residents.map(res => (
-            <div
-              key={res.id}
-              className="bg-[#161b22] rounded border border-[#30363d] p-2.5 flex flex-col justify-between gap-2"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-semibold text-slate-100 truncate">{res.name}</span>
-                  <span className="text-[9px] font-medium px-1.5 py-0.5 rounded bg-[#21262d] text-sky-300 border border-[#30363d]">
-                    {res.category}
-                  </span>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {residents.map(r => {
+            const isChecked = r.assistanceStatus === 'Checked-In';
+            return (
+              <div
+                key={r.id}
+                className="bg-[#fbfbfe] hover:bg-white rounded-xl border border-slate-200/80 p-3.5 flex flex-col justify-between gap-2.5 shadow-2xs"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <h4 className="font-bold text-slate-900 text-xs">{r.name}</h4>
+                    <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-violet-50 text-violet-700 border border-violet-200">
+                      {r.category}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">{r.notes}</p>
                 </div>
-                <p className="text-[11px] text-slate-400 mt-0.5 leading-snug">{res.notes}</p>
-              </div>
-
-              <div className="flex items-center justify-between pt-2 border-t border-[#21262d]">
-                <span
-                  className={`text-[10px] font-semibold ${
-                    res.assistanceStatus === 'Checked-In'
-                      ? 'text-emerald-400'
-                      : res.assistanceStatus === 'Filter Aid Delivered'
-                      ? 'text-sky-400'
-                      : 'text-amber-400'
-                  }`}
-                >
-                  ● {res.assistanceStatus}
-                </span>
 
                 <button
                   type="button"
-                  onClick={() => toggleResidentStatus(res.id)}
-                  className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#21262d] hover:bg-[#30363d] text-slate-200 border border-[#30363d] transition-colors"
+                  onClick={() => toggleResidentCheckin(r.id)}
+                  className={`w-full py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    isChecked
+                      ? 'bg-emerald-600 text-white shadow-2xs'
+                      : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                  }`}
                 >
-                  Update Check-In
+                  {isChecked ? '✓ Checked-In Today' : 'Mark Visited & Assisted'}
                 </button>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

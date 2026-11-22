@@ -55,22 +55,24 @@ export const AIInsightsPanel = memo(function AIInsightsPanel() {
   return (
     <section
       aria-label="GenAI Exposure Window & Routine Optimizer"
-      className="bg-[#161b22] rounded border border-[#30363d] p-3 flex flex-col gap-3"
+      className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-6 shadow-xs flex flex-col gap-4 text-slate-800"
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#21262d] pb-2">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-base" aria-hidden="true">🤖</span>
-            <h2 className="text-xs font-bold text-white uppercase tracking-wide">
+            <span className="w-8 h-8 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center text-sm font-bold" aria-hidden="true">
+              🤖
+            </span>
+            <h2 className="text-sm font-bold text-slate-900 tracking-tight">
               GenAI Daily Routine & Exposure Window Optimizer
             </h2>
-            <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-slate-800 text-sky-400 border border-slate-700">
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-700 border border-violet-200">
               Gemini 3.1 Flash Lite
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">
-            Calibrated for <strong className="text-slate-200">{userProfile.name}</strong> ({userProfile.persona})
-            in <strong className="text-slate-200">{selectedSector.sectorName}</strong>.
+          <p className="text-xs text-slate-500 mt-1">
+            Calibrated for <strong className="text-slate-800 font-semibold">{userProfile.name}</strong> ({userProfile.persona})
+            in <strong className="text-slate-800 font-semibold">{selectedSector.sectorName}</strong>.
           </p>
         </div>
 
@@ -78,11 +80,11 @@ export const AIInsightsPanel = memo(function AIInsightsPanel() {
           type="button"
           onClick={() => void fetchSchedule()}
           disabled={loading}
-          className="self-end sm:self-center px-2.5 py-1 rounded text-xs font-medium bg-[#21262d] hover:bg-[#30363d] text-white border border-[#30363d] transition-colors disabled:opacity-50 flex items-center gap-1.5"
+          className="self-end sm:self-center px-4 py-2 rounded-xl text-xs font-semibold bg-violet-700 hover:bg-violet-800 active:bg-violet-900 text-white shadow-xs transition-colors disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
         >
           {loading ? (
             <>
-              <span className="w-2.5 h-2.5 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+              <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
               <span>Optimizing...</span>
             </>
           ) : (
@@ -100,32 +102,32 @@ export const AIInsightsPanel = memo(function AIInsightsPanel() {
       </div>
 
       {error && (
-        <div role="alert" className="p-2 rounded bg-amber-950/60 border border-amber-800 text-xs text-amber-300">
+        <div role="alert" className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800">
           {error}
         </div>
       )}
 
       {/* Key Metrics Banner */}
       {report && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          <div className="bg-[#0d1117] rounded border border-[#30363d] p-2.5">
-            <p className="text-[10px] text-slate-400 font-medium uppercase">Inhaled Dose Reduction</p>
-            <p className="text-lg font-bold text-emerald-400 mt-0.5">-{report.overallDoseReductionPercent}%</p>
-            <p className="text-[10px] text-slate-500">Vs unmitigated routine</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="bg-emerald-50/70 rounded-xl border border-emerald-100 p-4 shadow-2xs">
+            <p className="text-[10px] text-emerald-800 font-bold uppercase tracking-wider">Inhaled Dose Reduction</p>
+            <p className="text-2xl font-extrabold text-emerald-700 mt-1">-{report.overallDoseReductionPercent}%</p>
+            <p className="text-[11px] text-emerald-600 mt-0.5">Vs unmitigated routine</p>
           </div>
 
-          <div className="bg-[#0d1117] rounded border border-[#30363d] p-2.5">
-            <p className="text-[10px] text-slate-400 font-medium uppercase">Safe Outdoor Window</p>
-            <p className="text-sm font-bold text-sky-400 mt-0.5">{report.bestOutdoorWindow}</p>
-            <p className="text-[10px] text-slate-500">Maximum convective mixing</p>
+          <div className="bg-violet-50/70 rounded-xl border border-violet-100 p-4 shadow-2xs">
+            <p className="text-[10px] text-violet-800 font-bold uppercase tracking-wider">Safe Outdoor Window</p>
+            <p className="text-lg font-extrabold text-violet-700 mt-1">{report.bestOutdoorWindow}</p>
+            <p className="text-[11px] text-violet-600 mt-0.5">Maximum convective mixing</p>
           </div>
 
-          <div className="bg-[#0d1117] rounded border border-[#30363d] p-2.5">
-            <p className="text-[10px] text-slate-400 font-medium uppercase">Inversion Status</p>
-            <p className="text-xs font-bold text-amber-300 mt-0.5">
+          <div className="bg-amber-50/70 rounded-xl border border-amber-100 p-4 shadow-2xs">
+            <p className="text-[10px] text-amber-800 font-bold uppercase tracking-wider">Inversion Status</p>
+            <p className="text-sm font-bold text-amber-900 mt-1">
               {report.thermalInversionWarning ? '⚠️ Active Trapping Layer' : '✅ Dispersive / Normal'}
             </p>
-            <p className="text-[10px] text-slate-400 truncate">
+            <p className="text-[11px] text-amber-700 truncate mt-0.5">
               {report.thermalInversionWarning ?? 'Standard boundary layer height'}
             </p>
           </div>
@@ -134,47 +136,47 @@ export const AIInsightsPanel = memo(function AIInsightsPanel() {
 
       {/* Hour-by-Hour Interactive Schedule */}
       {report && (
-        <div className="flex flex-col gap-2">
-          <h3 className="text-[11px] font-bold text-slate-300 uppercase tracking-wide flex items-center gap-1.5">
+        <div className="flex flex-col gap-2.5">
+          <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wide flex items-center gap-1.5">
             <span aria-hidden="true">⏱️</span> Chronological Exposure Defense Schedule
           </h3>
 
-          <div className="max-h-[320px] overflow-y-auto space-y-1.5 pr-1">
+          <div className="max-h-[380px] overflow-y-auto space-y-2.5 pr-1">
             {report.hourlySchedule.map((slot, idx) => {
               const isSafe = slot.suitability === 'Safe';
               const isCaution = slot.suitability === 'Caution';
               const badgeStyle = isSafe
-                ? 'bg-[#062d1f] text-emerald-300 border-emerald-800'
+                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                 : isCaution
-                ? 'bg-[#2e1d08] text-amber-300 border-amber-800'
-                : 'bg-[#331114] text-red-300 border-red-800';
+                ? 'bg-amber-50 text-amber-800 border-amber-200'
+                : 'bg-rose-50 text-rose-700 border-rose-200';
 
               return (
                 <div
                   key={idx}
-                  className="bg-[#0d1117] rounded border border-[#30363d] p-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 hover:border-[#8b949e] transition-colors"
+                  className="bg-[#fbfbfe] hover:bg-white rounded-xl border border-slate-100 hover:border-violet-200 p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 transition-all shadow-2xs"
                 >
-                  <div className="flex items-start gap-2.5">
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#161b22] text-sky-400 border border-[#30363d] whitespace-nowrap">
+                  <div className="flex items-start gap-3">
+                    <span className="text-[11px] font-bold px-2 py-1 rounded-lg bg-white text-violet-700 border border-slate-200 whitespace-nowrap shadow-2xs">
                       {slot.hour}
                     </span>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="text-xs font-bold text-white">{slot.activity}</h4>
-                        <span className={`text-[9px] font-semibold px-1 py-0.2 rounded border ${badgeStyle}`}>
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-900">{slot.activity}</h4>
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${badgeStyle}`}>
                           {slot.suitability}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-300 mt-0.5">{slot.recommendation}</p>
-                      <p className="text-[10px] text-emerald-400/90 font-medium">
+                      <p className="text-xs text-slate-600 mt-1 leading-relaxed">{slot.recommendation}</p>
+                      <p className="text-[11px] text-emerald-700 font-medium mt-0.5">
                         Impact: {slot.physiologicalImpact}
                       </p>
                     </div>
                   </div>
 
                   <div className="text-right shrink-0 self-end sm:self-center">
-                    <p className="text-[9px] text-slate-500 uppercase">Est. AQI</p>
-                    <span className="text-xs font-bold font-mono text-white">{slot.outdoorAQIPrediction}</span>
+                    <p className="text-[10px] text-slate-400 font-semibold uppercase">Est. AQI</p>
+                    <span className="text-sm font-bold font-mono text-slate-900">{slot.outdoorAQIPrediction}</span>
                   </div>
                 </div>
               );
@@ -185,11 +187,11 @@ export const AIInsightsPanel = memo(function AIInsightsPanel() {
 
       {/* Actionable Advice List */}
       {report && report.keyActionableAdvice && (
-        <div className="bg-[#0d1117] border border-[#30363d] rounded p-2.5">
-          <h4 className="text-[10px] font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-1.5 mb-1.5">
+        <div className="bg-emerald-50/60 border border-emerald-100/80 rounded-xl p-4 shadow-2xs">
+          <h4 className="text-xs font-bold text-emerald-900 uppercase tracking-wide flex items-center gap-1.5 mb-2">
             <span aria-hidden="true">🛡️</span> Priority Smog Defense Directives
           </h4>
-          <ul className="space-y-1 text-xs text-slate-300 list-disc list-inside">
+          <ul className="space-y-1.5 text-xs text-slate-700 list-disc list-inside leading-relaxed">
             {report.keyActionableAdvice.map((advice, i) => (
               <li key={i}>{advice}</li>
             ))}

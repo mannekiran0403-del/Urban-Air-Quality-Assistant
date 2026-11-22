@@ -61,22 +61,23 @@ export const MultilingualSmogAssistant = memo(function MultilingualSmogAssistant
     <section
       aria-label="Multilingual Smog Advisory & Emergency Guide"
       dir={isRtl ? 'rtl' : 'ltr'}
-      className={`bg-[#161b22] rounded border border-[#30363d] p-3.5 flex flex-col gap-3.5 ${
+      className={`bg-white rounded-2xl border border-slate-100 p-5 sm:p-6 shadow-xs flex flex-col gap-4 text-slate-800 ${
         isRtl ? 'font-arabic' : ''
       }`}
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#30363d] pb-2.5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
         <div>
-          <h2 className="text-sm font-semibold text-slate-100 flex items-center gap-1.5">
-            <span aria-hidden="true">🌐</span> Multilingual Smog Emergency Defense & Advisories
+          <h2 className="text-sm font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <span>🌐</span>
+            <span>Multilingual Smog Emergency Defense & Advisories</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Life-safety translations ensuring all non-English speaking communities receive accessible, actionable inversion instructions.
           </p>
         </div>
 
         {/* Language Switcher Buttons */}
-        <div className="flex flex-wrap gap-1" role="radiogroup" aria-label="Select Advisory Language">
+        <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Select Advisory Language">
           {LANGUAGES.map(lang => (
             <button
               key={lang.code}
@@ -84,10 +85,10 @@ export const MultilingualSmogAssistant = memo(function MultilingualSmogAssistant
               role="radio"
               aria-checked={language === lang.code}
               onClick={() => setLanguage(lang.code)}
-              className={`px-2.5 py-1 rounded text-xs font-semibold transition-colors ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 language === lang.code
-                  ? 'bg-[#238636] text-white border border-[#2ea043]'
-                  : 'bg-[#21262d] text-slate-300 hover:bg-[#30363d] border border-[#30363d]'
+                  ? 'bg-violet-700 text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
               <span>{lang.nativeName}</span>
@@ -103,27 +104,27 @@ export const MultilingualSmogAssistant = memo(function MultilingualSmogAssistant
       </div>
 
       {advisory && (
-        <div className="space-y-3">
+        <div className="space-y-3.5">
           {/* Advisory Header Card */}
-          <div className="bg-[#0d1117] border border-[#30363d] rounded p-3">
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-lg" aria-hidden="true">📢</span>
-              <h3 className="text-sm font-bold text-slate-100">{advisory.headline}</h3>
+          <div className="bg-[#fbfbfe] border border-slate-200/80 rounded-2xl p-4 shadow-2xs">
+            <div className="flex items-center gap-2.5 mb-2">
+              <span className="text-xl" aria-hidden="true">📢</span>
+              <h3 className="text-sm sm:text-base font-extrabold text-slate-900">{advisory.headline}</h3>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">{advisory.summary}</p>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{advisory.summary}</p>
           </div>
 
           {/* Emergency DOs and DONTs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             {/* DOs */}
-            <div className="bg-[#06241a] border border-emerald-900/60 rounded p-3">
-              <h4 className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400 flex items-center gap-1 mb-2">
+            <div className="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-4 shadow-2xs">
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-emerald-900 flex items-center gap-1.5 mb-2.5">
                 <span aria-hidden="true">✅</span> Emergency Actions To Take (DOs)
               </h4>
-              <ul className="space-y-1.5 text-xs text-slate-200">
+              <ul className="space-y-2 text-xs text-slate-700 leading-relaxed">
                 {advisory.emergencyDos.map((item, i) => (
-                  <li key={i} className="flex items-start gap-1.5">
-                    <span className="text-emerald-400 font-bold shrink-0" aria-hidden="true">✓</span>
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-emerald-700 font-extrabold shrink-0" aria-hidden="true">✓</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -131,14 +132,14 @@ export const MultilingualSmogAssistant = memo(function MultilingualSmogAssistant
             </div>
 
             {/* DONTs */}
-            <div className="bg-[#241215] border border-red-900/60 rounded p-3">
-              <h4 className="text-[10px] font-semibold uppercase tracking-wider text-red-400 flex items-center gap-1 mb-2">
+            <div className="bg-rose-50/70 border border-rose-100 rounded-2xl p-4 shadow-2xs">
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-rose-900 flex items-center gap-1.5 mb-2.5">
                 <span aria-hidden="true">🛑</span> Critical Actions To Avoid (DON'Ts)
               </h4>
-              <ul className="space-y-1.5 text-xs text-slate-200">
+              <ul className="space-y-2 text-xs text-slate-700 leading-relaxed">
                 {advisory.emergencyDonts.map((item, i) => (
-                  <li key={i} className="flex items-start gap-1.5">
-                    <span className="text-red-400 font-bold shrink-0" aria-hidden="true">✗</span>
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-rose-600 font-extrabold shrink-0" aria-hidden="true">✗</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -147,13 +148,13 @@ export const MultilingualSmogAssistant = memo(function MultilingualSmogAssistant
           </div>
 
           {/* Vulnerable Care Notice */}
-          <div className="bg-[#241a0d] border border-amber-900/60 rounded p-3 flex items-start gap-2.5">
-            <span className="text-xl shrink-0" aria-hidden="true">👶</span>
+          <div className="bg-amber-50/70 border border-amber-100 rounded-2xl p-4 flex items-start gap-3 shadow-2xs">
+            <span className="text-2xl shrink-0" aria-hidden="true">👶</span>
             <div>
-              <h4 className="text-[10px] font-semibold uppercase tracking-wider text-amber-400">
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-amber-900">
                 Vulnerable Populations & Asthmatic Protocol
               </h4>
-              <p className="text-xs text-slate-200 mt-0.5 leading-snug">{advisory.vulnerableCareNotice}</p>
+              <p className="text-xs text-slate-700 mt-1 leading-relaxed">{advisory.vulnerableCareNotice}</p>
             </div>
           </div>
         </div>

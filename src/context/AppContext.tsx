@@ -45,21 +45,15 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<LanguageCode>('en');
   const [accessibilityMode, setAccessibilityModeState] = useState<'standard' | 'high-contrast' | 'screen-reader-optimized'>('standard');
   const [alertDismissed, setAlertDismissed] = useState<boolean>(false);
-  const [theme, setThemeState] = useState<ThemeMode>(() => storageService.getTheme());
+  const [theme] = useState<ThemeMode>('light');
 
-  // Sync Theme with root document
+  // Enforce consistent light SaaS theme on root document
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'light') {
-      root.classList.add('light');
-      root.classList.remove('dark');
-      root.setAttribute('data-theme', 'light');
-    } else {
-      root.classList.add('dark');
-      root.classList.remove('light');
-      root.setAttribute('data-theme', 'dark');
-    }
-  }, [theme]);
+    root.classList.add('light');
+    root.classList.remove('dark');
+    root.setAttribute('data-theme', 'light');
+  }, []);
 
   // Sync RTL and lang attribute with selected language
   useEffect(() => {
@@ -128,18 +122,9 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
-  const setTheme = useCallback((newTheme: ThemeMode) => {
-    setThemeState(newTheme);
-    storageService.saveTheme(newTheme);
-  }, []);
+  const setTheme = useCallback((_newTheme: ThemeMode) => {}, []);
 
-  const toggleTheme = useCallback(() => {
-    setThemeState(prev => {
-      const next: ThemeMode = prev === 'dark' ? 'light' : 'dark';
-      storageService.saveTheme(next);
-      return next;
-    });
-  }, []);
+  const toggleTheme = useCallback(() => {}, []);
 
   const selectedSector = useMemo(() => {
     return sectors.find(s => s.sectorId === selectedSectorId) ?? sectors[0];

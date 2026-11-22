@@ -48,14 +48,14 @@ const Sparkline = memo(function Sparkline({ values, color }: { values: number[];
 function getStatusBadge(status: AQICategory) {
   switch (status) {
     case AQICategory.Good:
-      return { text: 'text-emerald-300', bg: 'bg-[#062d1f] border-emerald-800', stroke: '#10b981' };
+      return { text: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-200', stroke: '#10b981' };
     case AQICategory.Moderate:
-      return { text: 'text-amber-300', bg: 'bg-[#2e1d08] border-amber-800', stroke: '#f59e0b' };
+      return { text: 'text-amber-800', bg: 'bg-amber-50 border-amber-200', stroke: '#f59e0b' };
     case AQICategory.Poor:
-      return { text: 'text-orange-300', bg: 'bg-[#2f1908] border-orange-800', stroke: '#f97316' };
+      return { text: 'text-orange-700', bg: 'bg-orange-50 border-orange-200', stroke: '#f97316' };
     case AQICategory.VeryPoor:
     case AQICategory.Severe:
-      return { text: 'text-red-300', bg: 'bg-[#331114] border-red-800', stroke: '#ef4444' };
+      return { text: 'text-rose-700', bg: 'bg-rose-50 border-rose-200', stroke: '#ef4444' };
   }
 }
 
@@ -63,7 +63,7 @@ export const PollutantCards = memo(function PollutantCards() {
   const { selectedSector, pollutants } = useAirAnalytics();
 
   return (
-    <section aria-label="Detailed Pollutant Measurements & Weather Metrics" className="flex flex-col gap-3">
+    <section aria-label="Detailed Pollutant Measurements & Weather Metrics" className="flex flex-col gap-4">
       {/* WCAG 2.2 AA Twin Representation for Sparklines */}
       <div className="sr-only" aria-label="Pollutant 24-hour trend telemetry readings">
         <dl>
@@ -80,7 +80,7 @@ export const PollutantCards = memo(function PollutantCards() {
       </div>
 
       {/* Main Grid: 5 Pollutant Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
         {pollutants.map((p: PollutantMeasurement) => {
           const badge = getStatusBadge(p.status);
           const isOverThreshold = p.value > p.threshold;
@@ -90,28 +90,28 @@ export const PollutantCards = memo(function PollutantCards() {
               key={p.type}
               role="article"
               aria-label={`${p.type} pollutant card`}
-              className="bg-[#161b22] rounded border border-[#30363d] p-3 flex flex-col justify-between gap-2 hover:border-[#8b949e] transition-colors"
+              className="bg-white rounded-2xl border border-slate-100 p-4 shadow-xs flex flex-col justify-between gap-3 hover:border-violet-200 hover:shadow-md transition-all text-slate-800"
             >
               <div>
-                <div className="flex items-center justify-between mb-1">
-                  <h3 className="font-bold text-white text-xs">{p.type}</h3>
-                  <span className={`text-[10px] font-medium px-1.5 py-0.2 rounded border ${badge.bg} ${badge.text}`}>
+                <div className="flex items-center justify-between mb-1.5">
+                  <h3 className="font-bold text-slate-900 text-xs tracking-tight">{p.type}</h3>
+                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${badge.bg} ${badge.text}`}>
                     {p.status}
                   </span>
                 </div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-xl font-bold text-white font-mono">{p.value}</span>
-                  <span className="text-[11px] text-slate-400">{p.unit}</span>
+                <div className="flex items-baseline gap-1 mt-1">
+                  <span className="text-2xl font-extrabold text-slate-900 font-mono">{p.value}</span>
+                  <span className="text-xs text-slate-500 font-medium">{p.unit}</span>
                 </div>
-                <p className="text-[10px] text-slate-400 mt-0.5">
-                  Safe: <span className={isOverThreshold ? 'text-amber-400 font-medium' : 'text-slate-300'}>{p.threshold} {p.unit}</span>
+                <p className="text-[11px] text-slate-500 mt-1">
+                  Safe: <span className={isOverThreshold ? 'text-amber-700 font-semibold' : 'text-slate-600 font-medium'}>{p.threshold} {p.unit}</span>
                 </p>
               </div>
 
               {/* Native SVG Sparkline */}
-              <div className="pt-1.5 border-t border-[#21262d]">
-                <div className="flex items-center justify-between text-[9px] text-slate-500 mb-0.5">
-                  <span>24h</span>
+              <div className="pt-2 border-t border-slate-100">
+                <div className="flex items-center justify-between text-[10px] text-slate-400 font-medium mb-1">
+                  <span>24h ago</span>
                   <span>Now</span>
                 </div>
                 <Sparkline values={p.sparkline} color={badge.stroke} />
@@ -122,36 +122,44 @@ export const PollutantCards = memo(function PollutantCards() {
       </div>
 
       {/* Micro-Climate & Inversion Diagnostics Bar */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-[#161b22] rounded border border-[#30363d] p-2.5">
-        <div className="flex items-center gap-2">
-          <span className="text-lg" aria-hidden="true">🌡️</span>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-xs text-slate-800">
+        <div className="flex items-center gap-3">
+          <span className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-lg flex-shrink-0" aria-hidden="true">
+            🌡️
+          </span>
           <div>
-            <p className="text-[10px] text-slate-400 uppercase font-semibold">Ambient Temperature</p>
-            <p className="text-xs font-bold text-white">{selectedSector.temperature}°C</p>
+            <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Ambient Temperature</p>
+            <p className="text-sm font-extrabold text-slate-900 mt-0.5">{selectedSector.temperature}°C</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-lg" aria-hidden="true">💧</span>
+        <div className="flex items-center gap-3">
+          <span className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-lg flex-shrink-0" aria-hidden="true">
+            💧
+          </span>
           <div>
-            <p className="text-[10px] text-slate-400 uppercase font-semibold">Humidity</p>
-            <p className="text-xs font-bold text-white">{selectedSector.humidity}%</p>
+            <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Humidity</p>
+            <p className="text-sm font-extrabold text-slate-900 mt-0.5">{selectedSector.humidity}%</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-lg" aria-hidden="true">💨</span>
+        <div className="flex items-center gap-3">
+          <span className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-lg flex-shrink-0" aria-hidden="true">
+            💨
+          </span>
           <div>
-            <p className="text-[10px] text-slate-400 uppercase font-semibold">Wind Speed</p>
-            <p className="text-xs font-bold text-white">{selectedSector.windSpeed} km/h</p>
+            <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Wind Speed</p>
+            <p className="text-sm font-extrabold text-slate-900 mt-0.5">{selectedSector.windSpeed} km/h</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-lg" aria-hidden="true">⛰️</span>
+        <div className="flex items-center gap-3">
+          <span className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg flex-shrink-0" aria-hidden="true">
+            ⛰️
+          </span>
           <div>
-            <p className="text-[10px] text-slate-400 uppercase font-semibold">Inversion Risk</p>
-            <p className={`text-xs font-bold ${selectedSector.inversionRisk === 'Critical' ? 'text-red-400' : 'text-amber-400'}`}>
+            <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Inversion Risk</p>
+            <p className={`text-sm font-extrabold mt-0.5 ${selectedSector.inversionRisk === 'Critical' ? 'text-rose-600' : 'text-amber-600'}`}>
               {selectedSector.inversionRisk}
             </p>
           </div>
