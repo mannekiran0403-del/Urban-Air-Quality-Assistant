@@ -71,10 +71,15 @@ const ALLOWED_ORIGINS = [
   'http://localhost:5173',
   'http://localhost:3000',
   'http://localhost:3001',
+  'https://urban-air-quality-assistant-z360.onrender.com',
   'https://airguard-ai.onrender.com',
   'https://airguard-ai.web.app',
   'https://airguard-ai.firebaseapp.com',
 ];
+
+if (process.env.ALLOWED_ORIGINS) {
+  ALLOWED_ORIGINS.push(...process.env.ALLOWED_ORIGINS.split(',').map((s) => s.trim()));
+}
 
 app.use(
   cors({
@@ -83,14 +88,17 @@ app.use(
       if (
         ALLOWED_ORIGINS.includes(origin) ||
         origin.startsWith('http://localhost:') ||
-        (origin.includes('airguard') && origin.endsWith('.onrender.com'))
+        origin.endsWith('.vercel.app') ||
+        origin.endsWith('.onrender.com') ||
+        origin.endsWith('.web.app') ||
+        origin.endsWith('.firebaseapp.com')
       ) {
         return callback(null, true);
       }
       return callback(new Error(`CORS policy violation: ${origin}`), false);
     },
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: false,
   })
 );

@@ -7,6 +7,9 @@
 import type { UserProfile, SectorData, RoutineInsightReport, LanguageCode, TranslationAdvisory } from '@/types';
 
 const getApiBase = (): string => {
+  if (import.meta.env?.VITE_API_URL) {
+    return (import.meta.env.VITE_API_URL as string).replace(/\/$/, '');
+  }
   if (typeof window !== 'undefined' && window.location?.origin) {
     if (window.location.port === '5173' || window.location.port === '3001' || !window.location.port) {
       return '';
