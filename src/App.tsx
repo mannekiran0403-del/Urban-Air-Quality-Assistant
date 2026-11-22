@@ -129,10 +129,7 @@ const AppShell = memo(function AppShell() {
 
   return (
     <div className="min-h-screen bg-[#f5f4fb] text-slate-800 flex antialiased selection:bg-violet-600 selection:text-white">
-      {/* 1. Global Alert Banner Overlay */}
-      <AlertBanner />
-
-      {/* 2. Left Sidebar Navigation Landmark */}
+      {/* 1. Left Sidebar Navigation Landmark */}
       <aside
         aria-label="Sidebar navigation"
         className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200/80 flex flex-col justify-between transition-transform duration-300 ease-in-out lg:translate-x-0 ${
@@ -269,8 +266,11 @@ const AppShell = memo(function AppShell() {
         />
       )}
 
-      {/* 3. Main Dashboard Wrapper */}
+      {/* 2. Main Dashboard Wrapper */}
       <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
+        {/* Global Alert Banner Overlay (Properly positioned inside main container) */}
+        <AlertBanner />
+
         {/* Top Header Bar Landmark */}
         <header
           aria-label="Application top bar"

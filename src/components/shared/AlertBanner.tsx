@@ -16,16 +16,18 @@ export const AlertBanner = memo(function AlertBanner() {
 
   if (!isHazardous || alertDismissed) {
     return (
-      <div className="bg-[#161b22] border-b border-[#30363d] px-4 sm:px-6 py-1.5 flex items-center justify-between text-xs text-slate-300">
+      <div className="w-full bg-slate-100/90 border-b border-slate-200/80 px-4 sm:px-8 py-1.5 flex items-center justify-between text-xs text-slate-600">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true" />
-          <span className="text-[11px]">Urban Air Telemetry Active — Sector: <strong className="text-white font-medium">{selectedSector.sectorName}</strong></span>
+          <span className="text-[11px]">
+            Urban Air Telemetry Active — Sector: <strong className="text-slate-800 font-semibold">{selectedSector.sectorName}</strong>
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={triggerSmogSpike}
-            className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#21262d] hover:bg-[#30363d] text-slate-300 border border-[#30363d] transition-colors focus:ring-1 focus:ring-emerald-500"
+            className="px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors focus:ring-1 focus:ring-violet-500 cursor-pointer shadow-2xs"
           >
             Simulate Smog Inversion Spike
           </button>
@@ -38,21 +40,21 @@ export const AlertBanner = memo(function AlertBanner() {
     <div
       role="alert"
       aria-live="assertive"
-      className="bg-[#1f1315] border-b border-red-800 text-white px-4 sm:px-6 py-2 transition-all"
+      className="w-full bg-rose-50 border-b border-rose-200 text-rose-950 px-4 sm:px-8 py-2.5 transition-all shadow-xs"
     >
       <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
         <div className="flex items-center gap-2.5">
           <span className="text-base" aria-hidden="true">⚠️</span>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-xs font-bold uppercase tracking-wide text-red-200">
+              <h2 className="text-xs font-bold uppercase tracking-wide text-rose-800">
                 Critical Smog Alert — Severe Winter Inversion Active
               </h2>
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-950 text-red-300 border border-red-700">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-600 text-white">
                 AQI {selectedSector.aqi}
               </span>
             </div>
-            <p className="text-[11px] text-red-200/80 mt-0.5">
+            <p className="text-[11px] text-rose-700 mt-0.5">
               Sector: <strong>{selectedSector.sectorName}</strong> (PM2.5: {selectedSector.pm25} µg/m³). Avoid outdoor exposure. Run indoor HEPA scrubbers.
             </p>
           </div>
@@ -62,7 +64,7 @@ export const AlertBanner = memo(function AlertBanner() {
           <button
             type="button"
             onClick={resetTelemetry}
-            className="px-2 py-1 rounded text-[11px] font-medium bg-red-950 hover:bg-red-900 text-red-200 border border-red-800 transition-colors"
+            className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white hover:bg-rose-100 text-rose-700 border border-rose-200 transition-colors cursor-pointer"
           >
             Reset Telemetry
           </button>
@@ -70,7 +72,7 @@ export const AlertBanner = memo(function AlertBanner() {
             type="button"
             onClick={dismissAlert}
             aria-label="Dismiss critical smog alert"
-            className="px-2 py-1 rounded text-[11px] font-medium bg-[#21262d] hover:bg-[#30363d] text-slate-300 border border-[#30363d] transition-colors"
+            className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-rose-600 hover:bg-rose-700 text-white transition-colors cursor-pointer shadow-2xs"
           >
             Dismiss
           </button>

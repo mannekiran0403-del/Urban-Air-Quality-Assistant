@@ -63,61 +63,91 @@ export const HeroBanner = memo(function HeroBanner({
         {/* Center: Clean Family Vector Graphic */}
         <div className="flex-shrink-0 flex items-center justify-center my-2 lg:my-0">
           <svg
-            viewBox="0 0 280 180"
-            className="w-56 sm:w-64 h-auto drop-shadow-sm"
+            viewBox="0 0 240 180"
+            className="w-48 sm:w-56 h-auto drop-shadow-sm"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             aria-label="Family enjoying clean urban air illustration"
           >
             <title>Family enjoying clean urban air</title>
-            {/* Dome/Halo */}
-            <circle cx="140" cy="110" r="85" fill="#f5f3ff" opacity="0.9" />
-            <circle cx="140" cy="110" r="75" stroke="#ddd6fe" strokeWidth="2" strokeDasharray="4 4" fill="none" />
+            <defs>
+              <linearGradient id="skyGlow" x1="120" y1="20" x2="120" y2="160" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#f3f0ff" stopOpacity="0.9" />
+                <stop stopColor="#ede9fe" stopOpacity="0.4" />
+              </linearGradient>
+              <linearGradient id="warmSun" x1="120" y1="30" x2="120" y2="90" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#fef08a" stopOpacity="0.8" />
+                <stop stopColor="#fde047" stopOpacity="0.3" />
+              </linearGradient>
+            </defs>
+
+            {/* Backdrop Dome */}
+            <circle cx="120" cy="100" r="75" fill="url(#skyGlow)" />
+            <circle cx="120" cy="100" r="68" stroke="#ddd6fe" strokeWidth="1.5" strokeDasharray="4 4" fill="none" />
+            <circle cx="120" cy="65" r="26" fill="url(#warmSun)" />
 
             {/* City Silhouette Background */}
             <path
-              d="M30 150 L30 120 L50 120 L50 110 L70 110 L70 130 L90 130 L90 115 L110 115 L110 150 Z"
+              d="M50 140 L50 115 L66 115 L66 105 L82 105 L82 120 L98 120 L98 140 Z"
               fill="#c4b5fd"
-              opacity="0.35"
+              opacity="0.3"
             />
             <path
-              d="M170 150 L170 118 L190 118 L190 105 L215 105 L215 125 L235 125 L235 150 Z"
+              d="M142 140 L142 110 L158 110 L158 100 L176 100 L176 118 L190 118 L190 140 Z"
               fill="#a5b4fc"
-              opacity="0.35"
+              opacity="0.3"
             />
 
-            {/* Sun / Clear Sky Halo */}
-            <circle cx="140" cy="65" r="28" fill="#fef08a" opacity="0.75" />
+            {/* Father (Right side) */}
+            <g id="father">
+              {/* Shoulders / Coat */}
+              <path d="M136 175 C136 130 186 130 186 175 Z" fill="#334155" />
+              <path d="M146 122 C154 130 168 130 176 122 C176 132 146 132 146 122 Z" fill="#64748b" />
+              {/* Head & Neck */}
+              <ellipse cx="160" cy="92" rx="14" ry="17" fill="#fed7aa" />
+              {/* Hair & Trim Beard */}
+              <path d="M146 88 C146 72 174 72 174 88 C174 94 172 102 170 104 C166 107 152 107 148 104 Z" fill="#1e293b" />
+              <ellipse cx="161" cy="92" rx="11" ry="13" fill="#fde68a" opacity="0.9" />
+              <path d="M152 97 C156 104 166 104 170 97 C171 103 167 108 161 108 C155 108 151 103 152 97 Z" fill="#1e293b" />
+              {/* Eye looking upward & smile */}
+              <circle cx="158" cy="90" r="1.5" fill="#0f172a" />
+              <path d="M157 96 Q 161 98 165 96" stroke="#0f172a" strokeWidth="1" strokeLinecap="round" />
+            </g>
 
-            {/* Father Figure (Center Right) */}
-            <ellipse cx="170" cy="85" rx="16" ry="19" fill="#fed7aa" />
-            {/* Hair & Beard */}
-            <path d="M152 78 C152 64 186 64 188 78 C188 83 186 92 184 94 C178 97 162 97 156 94 Z" fill="#334155" />
-            <ellipse cx="170" cy="85" rx="13" ry="15" fill="#fde68a" />
-            <path d="M158 92 C162 102 178 102 182 92 C184 98 178 106 170 106 C162 106 156 98 158 92 Z" fill="#1e293b" />
-            {/* Father Coat */}
-            <path d="M142 165 C142 118 198 118 198 165 Z" fill="#475569" />
-            {/* Father Scarf */}
-            <path d="M152 110 C162 120 178 120 188 110 C188 122 152 122 152 110 Z" fill="#64748b" />
+            {/* Mother (Left side) */}
+            <g id="mother">
+              {/* Coat & Scarf */}
+              <path d="M92 175 C92 135 138 135 138 175 Z" fill="#9f1239" opacity="0.9" />
+              <path d="M104 126 C112 134 124 134 130 126 C130 134 104 134 104 126 Z" fill="#fbcfe8" />
+              {/* Hair Back */}
+              <ellipse cx="115" cy="100" rx="16" ry="19" fill="#1e293b" />
+              {/* Face */}
+              <ellipse cx="117" cy="102" rx="12" ry="14" fill="#fed7aa" />
+              {/* Hair Front Side */}
+              <path d="M103 98 C103 82 129 82 129 98 C129 116 123 122 123 122 C118 116 112 116 107 122 Z" fill="#1e293b" />
+              {/* Eye & Smile */}
+              <circle cx="119" cy="100" r="1.5" fill="#0f172a" />
+              <path d="M117 106 Q 120 108 123 106" stroke="#0f172a" strokeWidth="1" strokeLinecap="round" />
+            </g>
 
-            {/* Mother Figure (Center Left) */}
-            <ellipse cx="125" cy="95" rx="14" ry="17" fill="#fed7aa" />
-            {/* Hair */}
-            <path d="M109 90 C109 72 141 72 141 90 C141 114 135 120 135 120 C130 114 120 114 115 120 Z" fill="#1e293b" />
-            <ellipse cx="125" cy="95" rx="12" ry="14" fill="#fde68a" />
-            {/* Mother Coat & Scarf */}
-            <path d="M102 165 C102 125 148 125 148 165 Z" fill="#881337" opacity="0.85" />
-            <path d="M112 118 C122 128 138 128 144 118 C144 128 112 128 112 118 Z" fill="#fed7aa" />
+            {/* Child (Front center looking up) */}
+            <g id="child">
+              {/* Yellow Puffer Jacket */}
+              <path d="M116 175 C116 145 152 145 152 175 Z" fill="#f59e0b" />
+              <path d="M124 140 C130 146 138 146 144 140 C144 146 124 146 124 140 Z" fill="#ef4444" />
+              {/* Face */}
+              <ellipse cx="134" cy="126" rx="10" ry="11" fill="#fed7aa" />
+              {/* Hair */}
+              <path d="M124 122 C124 112 144 112 144 122 C144 126 142 128 124 128 Z" fill="#78350f" />
+              {/* Eyes & Big Smile */}
+              <circle cx="132" cy="125" r="1.2" fill="#0f172a" />
+              <circle cx="137" cy="125" r="1.2" fill="#0f172a" />
+              <path d="M132 130 Q 135 133 138 130" stroke="#0f172a" strokeWidth="1.2" strokeLinecap="round" />
+            </g>
 
-            {/* Child Figure (Center) */}
-            <ellipse cx="152" cy="120" rx="12" ry="13" fill="#fed7aa" />
-            <path d="M140 115 C140 104 164 104 164 115 C164 122 162 125 140 125 Z" fill="#b45309" />
-            <path d="M132 170 C132 140 172 140 172 170 Z" fill="#f59e0b" />
-            <path d="M140 136 C148 144 156 144 164 136 C164 146 140 146 140 136 Z" fill="#ef4444" />
-
-            {/* Fresh Air Breeze Waves */}
-            <path d="M20 70 Q 50 60, 80 70 T 140 70" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" opacity="0.7" />
-            <path d="M200 60 Q 230 50, 260 60" stroke="#34d399" strokeWidth="2" strokeLinecap="round" opacity="0.7" />
+            {/* Clean air breeze swirls */}
+            <path d="M15 65 Q 40 55, 65 65 T 115 65" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+            <path d="M170 55 Q 195 48, 225 55" stroke="#34d399" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
           </svg>
         </div>
 
